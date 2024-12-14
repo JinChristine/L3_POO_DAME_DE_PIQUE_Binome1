@@ -75,37 +75,51 @@ public class Player {
         if (haveSameColorInDeck(roundDeck)) {
             bestCards = playTheBestCardWhenSameColor(roundDeck);
         } else {
-            bestCards = playTheBestCardWhenNotSameColor(turn);
+            bestCards = playTheBestCardWhenNotSameColor(turn, roundDeck);
         }
         return bestCards;
     }
 
-    private Card playTheBestCardWhenNotSameColor(int turn) {
+    private Card playTheBestCardWhenNotSameColor(int turn, Queue<Card> roundDeck) {
         Card bestCard = this.cards[0];
-        for (Card card : this.cards) {
-            if (card.getColor().equals(CardColor.valueOf("HEART"))) {
-                bestCard = card;
-                break;
+        if(roundDeck.size() != 0){
+            for (Card card : this.cards) {
+                if (card.getColor().equals(CardColor.valueOf("HEART"))) {
+                    bestCard = card;
+                    break;
+                }
+            }
+    
+            for (Card card : this.cards) {
+                if (card.getColor().equals(CardColor.valueOf("SPADE")) && card.getValue().getRank() == 12 && turn != 1) {
+                    bestCard = card;
+                    break;
+                }
+                if (haveHeartOrQueenOfSpadeInDeck(this.cards) && turn != 1) {
+                    if (card.getColor().equals(CardColor.valueOf("HEART"))
+                            && card.getValue().getRank() > bestCard.getValue().getRank()) {
+                        bestCard = card;
+                    }
+                } else if (card.getValue().getRank() > bestCard.getValue().getRank()
+                        && !haveHeartOrQueenOfSpadeInDeck(this.cards)) {
+                    bestCard = card;
+    
+                }
+    
             }
         }
-
-        for (Card card : this.cards) {
-            if (card.getColor().equals(CardColor.valueOf("SPADE")) && card.getValue().getRank() == 12 && turn != 1) {
-                bestCard = card;
-                break;
-            }
-            if (haveHeartOrQueenOfSpadeInDeck(this.cards) && turn != 1) {
-                if (card.getColor().equals(CardColor.valueOf("HEART"))
-                        && card.getValue().getRank() > bestCard.getValue().getRank()) {
+        else{
+            for(Card card: this.cards){
+                if(card.getValue().getRank() == 2 && card.getColor().equals(CardColor.valueOf("HEART"))){
+                    bestCard = card;
+                    break;
+                }
+                if(card.getValue().getRank() < bestCard.getValue().getRank()){
                     bestCard = card;
                 }
-            } else if (card.getValue().getRank() > bestCard.getValue().getRank()
-                    && !haveHeartOrQueenOfSpadeInDeck(this.cards)) {
-                bestCard = card;
-
             }
-
         }
+       
         return bestCard;
     }
 
