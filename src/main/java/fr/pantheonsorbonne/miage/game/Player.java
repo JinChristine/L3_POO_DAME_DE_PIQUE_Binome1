@@ -110,11 +110,11 @@ public class Player {
     }
 
     private Card playTheBestCardWhenSameColor(Queue<Card> roundDeck) {
-        Card HighestCardInRoundDeck = getTheHighestCardInRoundDeck(roundDeck);
+        Card highestCardInRoundDeck = getTheHighestCardInRoundDeck(roundDeck);
         Card bestCard = getTheLowestCardInSameColor(roundDeck);
         for (Card card : this.cards) {
             if (roundDeck.size() == 3 && haveHeartOrQueenOfSpadeInDeck(roundDeck)) {
-                if (card.getValue().getRank() < HighestCardInRoundDeck.getValue().getRank()
+                if (card.getValue().getRank() < highestCardInRoundDeck.getValue().getRank()
                         && card.getValue().getRank() > bestCard.getValue().getRank()
                         && card.getColor().equals(roundDeck.peek().getColor())) {
                     bestCard = card;
@@ -125,13 +125,13 @@ public class Player {
                     bestCard = card;
                 }
             } else if (roundDeck.size() < 3 && haveHeartOrQueenOfSpadeInDeck(roundDeck)) {
-                if (card.getValue().getRank() < HighestCardInRoundDeck.getValue().getRank()
+                if (card.getValue().getRank() < highestCardInRoundDeck.getValue().getRank()
                         && card.getValue().getRank() > bestCard.getValue().getRank()
                         && card.getColor().equals(roundDeck.peek().getColor())) {
                     bestCard = card;
                 }
             } else if (roundDeck.size() < 3 && !haveHeartOrQueenOfSpadeInDeck(roundDeck)) {
-                if (card.getValue().getRank() < HighestCardInRoundDeck.getValue().getRank()
+                if (card.getValue().getRank() < highestCardInRoundDeck.getValue().getRank()
                         && card.getValue().getRank() > bestCard.getValue().getRank()
                         && card.getColor().equals(roundDeck.peek().getColor())) {
                     bestCard = card;
@@ -144,9 +144,8 @@ public class Player {
     private Card getTheLowestCardInSameColor(Queue<Card> roundDeck) {
         Card lowestCard = this.cards[0];
         for (Card card : this.cards) {
-            if (!lowestCard.getColor().equals(roundDeck.peek().getColor())) {
+            if (lowestCard.getColor().equals(roundDeck.peek().getColor())) {
                 lowestCard = card;
-            } else {
                 break;
             }
         }
