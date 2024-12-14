@@ -124,21 +124,15 @@ public class Player {
                         && card.getColor().equals(roundDeck.peek().getColor())) {
                     bestCard = card;
                 }
-            } else if (roundDeck.size() < 3 && haveHeartOrQueenOfSpadeInDeck(roundDeck)) {
-                if (card.getValue().getRank() < highestCardInRoundDeck.getValue().getRank()
-                        && card.getValue().getRank() > bestCard.getValue().getRank()
-                        && card.getColor().equals(roundDeck.peek().getColor())) {
-                    bestCard = card;
-                }
-            } else if (roundDeck.size() < 3 && !haveHeartOrQueenOfSpadeInDeck(roundDeck)) {
-                if (card.getValue().getRank() < highestCardInRoundDeck.getValue().getRank()
-                        && card.getValue().getRank() > bestCard.getValue().getRank()
-                        && card.getColor().equals(roundDeck.peek().getColor())) {
-                    bestCard = card;
-                }
+            } else if (roundDeck.size() < 3 &&
+                    card.getValue().getRank() < highestCardInRoundDeck.getValue().getRank()
+                    && card.getValue().getRank() > bestCard.getValue().getRank()
+                    && card.getColor().equals(roundDeck.peek().getColor())) {
+                bestCard = card;
             }
         }
-        return bestCard;
+    return bestCard;
+
     }
 
     private Card getTheLowestCardInSameColor(Queue<Card> roundDeck) {
