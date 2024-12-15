@@ -71,4 +71,14 @@ public abstract class Player {
     }
 
     public abstract Card throwCard(Queue<Card> roundDeck, int turn);
+    
+    protected boolean haveSameColorInDeck(Queue<Card> roundDeck) {
+        Card firstPlayedCard = roundDeck.peek();
+        for (Card card : this.cards) {
+            if (card.getColor().equals(firstPlayedCard.getColor())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

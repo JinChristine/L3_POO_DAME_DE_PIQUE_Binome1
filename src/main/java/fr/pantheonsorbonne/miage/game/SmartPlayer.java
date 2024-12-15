@@ -127,15 +127,6 @@ public class SmartPlayer extends Player{
         return false;
     }
 
-    private boolean haveSameColorInDeck(Queue<Card> roundDeck) {
-        Card firstPlayedCard = roundDeck.peek();
-        for (Card card : this.cards) {
-            if (card.getColor().equals(firstPlayedCard.getColor())) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private Card getTheHighestCardInRoundDeck(Queue<Card> roundDeck) {
         Card HighestCardInRoundDeck = roundDeck.peek();
