@@ -99,10 +99,10 @@ public class QueenOfSpadesGame {
         int round = 0;
         while (!firstPlayerHas100(players)){
             round++;
-            player1.setCards(Deck.giveCards());
-            player2.setCards(Deck.giveCards());
-            player3.setCards(Deck.giveCards());
-            player4.setCards(Deck.giveCards());
+            player1.setCardList(Deck.giveCards());
+            player2.setCardList(Deck.giveCards());
+            player3.setCardList(Deck.giveCards());
+            player4.setCardList(Deck.giveCards());
             switch (round%4){
                 case 1:
                     player1.swap3Cards(player2);
@@ -162,7 +162,7 @@ public class QueenOfSpadesGame {
     public Player searchPlayerWithTwoOfClub(){
         Player firstPlayer = null;
         for(Player player : this.players){
-            for(Card card: player.getCards()){
+            for(Card card: player.getCardList()){
                 if(card.getValue().getRank() == 2 && card.getColor() == CardColor.valueOf("CLUB")){
                     firstPlayer = player;
                 }

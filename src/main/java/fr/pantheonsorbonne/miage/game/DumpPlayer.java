@@ -26,7 +26,7 @@ public class DumpPlayer extends Player{
         }
 
 
-        return ; 
+        return cardToPlay; 
     }
 
     public Card getRandomCard(){

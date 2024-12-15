@@ -1,6 +1,5 @@
 package fr.pantheonsorbonne.miage.game;
 
-import fr.pantheonsorbonne.miage.enums.*;
 import java.util.Queue;
 
 public abstract class Player {
@@ -71,4 +70,8 @@ public abstract class Player {
     }
 
     public abstract Card throwCard(Queue<Card> roundDeck, int turn);
+
+    protected boolean isNull(Card card){
+        return card.equals(null);
+    }
 }
