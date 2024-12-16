@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.miage.engine;
 import fr.pantheonsorbonne.miage.game.Deck;
 import fr.pantheonsorbonne.miage.game.Player;
+import fr.pantheonsorbonne.miage.game.SmartPlayer;
 import fr.pantheonsorbonne.miage.enums.CardColor;
 import fr.pantheonsorbonne.miage.game.Card;
 
@@ -15,10 +16,10 @@ public class QueenOfSpadesGame {
     private Queue<Player> players;
 
     public QueenOfSpadesGame(Player player1, Player player2, Player player3, Player player4, Queue<Player>players){
-        this.player1 = new Player("player1");
-        this.player2 = new Player("player2");
-        this.player3 = new Player("player3");
-        this.player4 = new Player("player4");
+        this.player1 = new SmartPlayer("player1");
+        this.player2 = new SmartPlayer("player2");
+        this.player3 = new SmartPlayer("player3");
+        this.player4 = new SmartPlayer("player4");
         this.players = new LinkedList<>();
         this.players.add(player1);
         this.players.add(player2);
@@ -99,10 +100,10 @@ public class QueenOfSpadesGame {
         int round = 0;
         while (!firstPlayerHas100(players)){
             round++;
-            player1.setCardList(Deck.giveCards());
-            player2.setCardList(Deck.giveCards());
-            player3.setCardList(Deck.giveCards());
-            player4.setCardList(Deck.giveCards());
+            player1.setCards(Deck.giveCards());
+            player2.setCards(Deck.giveCards());
+            player3.setCards(Deck.giveCards());
+            player4.setCards(Deck.giveCards());
             switch (round%4){
                 case 1:
                     player1.swap3Cards(player2);
@@ -162,7 +163,7 @@ public class QueenOfSpadesGame {
     public Player searchPlayerWithTwoOfClub(){
         Player firstPlayer = null;
         for(Player player : this.players){
-            for(Card card: player.getCardList()){
+            for(Card card: player.getCards()){
                 if(card.getValue().getRank() == 2 && card.getColor() == CardColor.valueOf("CLUB")){
                     firstPlayer = player;
                 }
@@ -184,7 +185,7 @@ public class QueenOfSpadesGame {
     }
     
     public static void main(String[] args){
-        QueenOfSpadesGame queenOfSpadesGame = new QueenOfSpadesGame();
-        queenOfSpadesGame.play();
+        //QueenOfSpadesGame queenOfSpadesGame = new QueenOfSpadesGame();
+        //queenOfSpadesGame.play();
     }
 }
