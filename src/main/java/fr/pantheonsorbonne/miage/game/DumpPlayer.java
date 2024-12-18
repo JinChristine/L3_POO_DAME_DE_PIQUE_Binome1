@@ -49,4 +49,13 @@ public class DumpPlayer extends Player {
             }
         }
     }
+
+    protected void replaceBestCardsInDeckByNull(Card bestCard){
+        for(int i = 0; i<this.cards.length;i++){
+            if(this.cards[i].getValue().getRank() == bestCard.getValue().getRank()){
+                this.cards[i]=null;
+            }
+        }
+    }
+
 }

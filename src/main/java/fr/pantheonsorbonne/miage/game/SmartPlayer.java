@@ -21,15 +21,7 @@ public class SmartPlayer extends Player{
         replaceBestCardsInDeckByNull(bestCards);
         return bestCards;
     }
-
-    private void replaceBestCardsInDeckByNull(Card bestCard){
-        for(int i = 0; i<this.cards.length;i++){
-            if(this.cards[i].getValue().getRank() == bestCard.getValue().getRank()){
-                this.cards[i]=null;
-            }
-        }
-    }
-
+    
     private Card playTheBestCardWhenNotSameColor(int turn, Queue<Card> roundDeck) {
         Card bestCard = cardListNotNull.get(0);
         if (roundDeck.size() != 0) {
