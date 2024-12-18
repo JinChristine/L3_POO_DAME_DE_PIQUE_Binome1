@@ -1,12 +1,10 @@
 package fr.pantheonsorbonne.miage.game;
-
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 import fr.pantheonsorbonne.miage.enums.CardColor;
 
 public class SmartPlayer extends Player{
+
     public SmartPlayer(String name) {
         super(name);
     }
@@ -24,16 +22,6 @@ public class SmartPlayer extends Player{
         return bestCards;
     }
 
-    private List<Card> getCardList(Card[] cards){
-        List<Card> list = new LinkedList<>();
-        for(Card card: cards){
-            if(!isNull(card)){
-                list.add(card);
-            }
-        }
-        return list;
-    }
-
     private void replaceBestCardsInDeckByNull(Card bestCard){
         for(int i = 0; i<this.cards.length;i++){
             if(this.cards[i].getValue().getRank() == bestCard.getValue().getRank()){
@@ -43,17 +31,16 @@ public class SmartPlayer extends Player{
     }
 
     private Card playTheBestCardWhenNotSameColor(int turn, Queue<Card> roundDeck) {
-        List<Card> cardList = getCardList(this.cards);
-        Card bestCard = cardList.get(0);
+        Card bestCard = cardListNotNull.get(0);
         if (roundDeck.size() != 0) {
-            for (Card card : cardList) {
+            for (Card card : cardListNotNull) {
                 if (card.getColor().equals(CardColor.valueOf("HEART"))) {
                     bestCard = card;
                     break;
                 }
             }
 
-            for (Card card : cardList) {
+            for (Card card : cardListNotNull) {
                 if(card.equals(null)){
                     continue;
                 }
@@ -75,7 +62,7 @@ public class SmartPlayer extends Player{
 
             }
         } else {
-            for (Card card : cardList) {
+            for (Card card : cardListNotNull) {
                 if (card.getValue().getRank() == 2 && card.getColor().equals(CardColor.valueOf("HEART"))) {
                     bestCard = card;
                     break;
@@ -90,10 +77,9 @@ public class SmartPlayer extends Player{
     }
 
     private Card playTheBestCardWhenSameColor(Queue<Card> roundDeck) {
-        List<Card> cardList = getCardList(this.cards);
         Card highestCardInRoundDeck = getTheHighestCardInRoundDeck(roundDeck);
         Card bestCard = getTheLowestCardInSameColor(roundDeck);
-        for (Card card : cardList) {
+        for (Card card : cardListNotNull) {
             if (roundDeck.size() == 3 && haveHeartOrQueenOfSpadeInDeck(roundDeck)) {
                 if (card.getValue().getRank() < highestCardInRoundDeck.getValue().getRank()
                         && card.getValue().getRank() > bestCard.getValue().getRank()
@@ -117,16 +103,15 @@ public class SmartPlayer extends Player{
     }
 
     private Card getTheLowestCardInSameColor(Queue<Card> roundDeck) {
-        List<Card> cardList = getCardList(this.cards);
-        Card lowestCard = cardList.get(0);
-        for (Card card : cardList) {
+        Card lowestCard = cardListNotNull.get(0);
+        for (Card card : cardListNotNull) {
             if (lowestCard.getColor().equals(roundDeck.peek().getColor())) {
                 lowestCard = card;
                 break;
             }
         }
 
-        for (Card card : cardList) {
+        for (Card card : cardListNotNull) {
             if (card.getValue().getRank() <= lowestCard.getValue().getRank()
                     && card.getColor().equals(roundDeck.peek().getColor())) {
                 lowestCard = card;
@@ -146,8 +131,7 @@ public class SmartPlayer extends Player{
     }
 
     private boolean haveHeartOrQueenOfSpadeInDeck(Card[] cards) {
-        List<Card> cardList = getCardList(this.cards);
-        for (Card cardInDeck : cardList) {
+        for (Card cardInDeck : cardListNotNull) {
             if (cardInDeck.getColor().equals(CardColor.valueOf("HEART")) || (cardInDeck.getValue().getRank() == 12
                     && cardInDeck.getColor().equals(CardColor.valueOf("SPADE")))) {
                 return true;
@@ -157,9 +141,8 @@ public class SmartPlayer extends Player{
     }
 
     private boolean haveSameColorInDeck(Queue<Card> roundDeck) {
-        List<Card> cardList = getCardList(this.cards);
         Card firstPlayedCard = roundDeck.peek();
-        for (Card card : cardList) {
+        for (Card card : cardListNotNull) {
             if (card.getColor().equals(firstPlayedCard.getColor())) {
                 return true;
             }

@@ -1,5 +1,7 @@
 package fr.pantheonsorbonne.miage.game;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public abstract class Player {
@@ -7,10 +9,13 @@ public abstract class Player {
     protected Card[] cards;
     protected int points;
 
+    protected List<Card> cardListNotNull;
+
     public Player(String name) {
         this.name = name;
         this.cards = new Card[13];
         this.points = 0;
+        this.cardListNotNull = getCardListNotNull(this.cards);
     }
 
     public void setPoints(int points) {
@@ -71,7 +76,17 @@ public abstract class Player {
 
     public abstract Card throwCard(Queue<Card> roundDeck, int turn);
 
-    protected boolean isNull(Card card){
+    private boolean isNull(Card card){
         return card.equals(null);
+    }
+
+    private List<Card> getCardListNotNull(Card[] cards){
+        List<Card> list = new LinkedList<>();
+        for(Card card: cards){
+            if(!isNull(card)){
+                list.add(card);
+            }
+        }
+        return list;
     }
 }
