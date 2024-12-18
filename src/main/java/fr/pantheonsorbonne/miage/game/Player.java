@@ -88,6 +88,7 @@ public abstract class Player {
             }
         }
         return list;
+    }
     
     protected boolean haveSameColorInDeck(Queue<Card> roundDeck) {
         Card firstPlayedCard = roundDeck.peek();
