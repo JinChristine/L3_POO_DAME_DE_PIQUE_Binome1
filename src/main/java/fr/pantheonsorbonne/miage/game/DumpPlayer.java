@@ -4,34 +4,49 @@ import java.util.Queue;
 import java.util.Random;
 import fr.pantheonsorbonne.miage.enums.CardColor;
 
-public class DumpPlayer extends Player{
-    
-    public DumpPlayer (String name){
+public class DumpPlayer extends Player {
+
+    public DumpPlayer(String name) {
         super(name);
     }
+
     @Override
-    public Card throwCard(Queue<Card> roundDeck, int turn){
-        Card cardToPlay = getRandomCard();
-        while(turn == 1 && cardToPlay.getColor().equals(CardColor.valueOf("HEART"))){
-            cardToPlay = getRandomCard();
-        }
-        if(turn != 1){
-            for(int i = 0; i < this.cards.length; i++){
-                if(roundDeck.peek().getColor().equals(this.cards[i].getColor())){
-                    Card temp = this.cards[i];
-                    this.cards[i] = null;
-                    return temp;
+    public Card throwCard(Queue<Card> roundDeck, int turn) {
+        int index = getRandom(this.cards.length);
+        Card cardToPlay = getRandomCard(index);
+        while (true) {
+            if (haveSameColorInDeck(roundDeck)) {
+                cardToPlay = getCardWithSameColorInDeck(roundDeck);
+                break;
+            } else if (turn == 1) {
+                if (cardToPlay.getColor().equals(CardColor.valueOf("HEART"))) {
+                    index = getRandom(this.cards.length);
+                    cardToPlay = getRandomCard(index);
+                } else {
+                    break;
                 }
             }
         }
-
-
-        return cardToPlay; 
+        Card temp = cardToPlay;
+        this.cards[index] = null;
+        return temp;
     }
 
-    public Card getRandomCard(){
+    public int getRandom(int max) {
         Random rand = new Random();
-        int i = rand.nextInt(0, this.cards.length);
+        return rand.nextInt(0, max);
+    }
+
+    public Card getRandomCard(int i) {
         return this.cards[i];
+    }
+
+    public Card getCardWithSameColorInDeck(Queue<Card> roundDeck) {
+        while (true) {
+            Card randomCard = getRandomCard(getRandom(this.cards.length));
+            if (roundDeck.peek().getColor().equals(randomCard.getColor())) {
+                return randomCard;
+            }
+        }
     }
 }
