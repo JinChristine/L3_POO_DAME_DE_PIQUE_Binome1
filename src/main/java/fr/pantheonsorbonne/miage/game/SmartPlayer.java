@@ -1,4 +1,5 @@
 package fr.pantheonsorbonne.miage.game;
+import java.util.List;
 import java.util.Queue;
 
 import fr.pantheonsorbonne.miage.enums.CardColor;
@@ -21,8 +22,9 @@ public class SmartPlayer extends Player{
         replaceBestCardsInDeckByNull(bestCards);
         return bestCards;
     }
-    
+
     private Card playTheBestCardWhenNotSameColor(int turn, Queue<Card> roundDeck) {
+        List<Card> cardListNotNull = getCardListNotNull(this.cards);
         Card bestCard = cardListNotNull.get(0);
         if (roundDeck.size() != 0) {
             for (Card card : cardListNotNull) {
@@ -69,6 +71,7 @@ public class SmartPlayer extends Player{
     }
 
     private Card playTheBestCardWhenSameColor(Queue<Card> roundDeck) {
+        List<Card> cardListNotNull = getCardListNotNull(this.cards);
         Card highestCardInRoundDeck = getTheHighestCardInRoundDeck(roundDeck);
         Card bestCard = getTheLowestCardInSameColor(roundDeck);
         for (Card card : cardListNotNull) {
@@ -95,6 +98,7 @@ public class SmartPlayer extends Player{
     }
 
     private Card getTheLowestCardInSameColor(Queue<Card> roundDeck) {
+        List<Card> cardListNotNull = getCardListNotNull(this.cards);
         Card lowestCard = cardListNotNull.get(0);
         for (Card card : cardListNotNull) {
             if (lowestCard.getColor().equals(roundDeck.peek().getColor())) {
@@ -123,6 +127,7 @@ public class SmartPlayer extends Player{
     }
 
     private boolean haveHeartOrQueenOfSpadeInDeck(Card[] cards) {
+        List<Card> cardListNotNull = getCardListNotNull(this.cards);
         for (Card cardInDeck : cardListNotNull) {
             if (cardInDeck.getColor().equals(CardColor.valueOf("HEART")) || (cardInDeck.getValue().getRank() == 12
                     && cardInDeck.getColor().equals(CardColor.valueOf("SPADE")))) {

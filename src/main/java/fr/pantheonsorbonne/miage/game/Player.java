@@ -9,13 +9,10 @@ public abstract class Player {
     protected Card[] cards;
     protected int points;
 
-    protected List<Card> cardListNotNull;
-
     public Player(String name) {
         this.name = name;
         this.cards = new Card[13];
         this.points = 0;
-        this.cardListNotNull = getCardListNotNull(this.cards);
     }
 
     public void setPoints(int points) {
@@ -80,7 +77,7 @@ public abstract class Player {
         return card.equals(null);
     }
 
-    private List<Card> getCardListNotNull(Card[] cards){
+    protected List<Card> getCardListNotNull(Card[] cards){
         List<Card> list = new LinkedList<>();
         for(Card card: cards){
             if(!isNull(card)){
