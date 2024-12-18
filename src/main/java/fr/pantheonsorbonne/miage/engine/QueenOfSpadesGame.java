@@ -10,24 +10,13 @@ import java.util.*;
 
 
 public abstract class QueenOfSpadesGame {
-    protected Player player1;
-    protected Player player2;
-    protected Player player3;
-    protected Player player4;
-    protected Queue<Player> players;
+    private Queue<Player> players;
 
-    public QueenOfSpadesGame(Player player1, Player player2, Player player3, Player player4, Queue<Player>players){
-        this.player1 = new DumpPlayer("player1");
-        this.player2 = new DumpPlayer("player2");
-        this.player3 = new DumpPlayer("player3");
-        this.player4 = new DumpPlayer("player4");
-        this.players = new LinkedList<>();
-        this.players.add(player1);
-        this.players.add(player2);
-        this.players.add(player3);
-        this.players.add(player4);
+    public QueenOfSpadesGame(){
+        
     }
 
+    protected abstract Queue<Player> getPlayers();
     protected abstract Card getWinnerCard(Queue<Card> roundDeck);
     protected abstract int givePointsToWinnerTurn(Queue<Card> roundDeck);
     protected abstract Player getWinnerTurn(Queue<Player> playersOrder, Queue<Card> roundDeck);
@@ -41,40 +30,52 @@ public abstract class QueenOfSpadesGame {
         int round = 0;
         while (!firstPlayerHas100(players)){
             round++;
-            player1.setCards(Deck.giveCards());
-            player2.setCards(Deck.giveCards());
-            player3.setCards(Deck.giveCards());
-            player4.setCards(Deck.giveCards());
+            Player firstPlayer = players.peek();
+            firstPlayer.setCards(Deck.giveCards());
+            players.poll();
+            players.offer(firstPlayer);
+            Player secondPlayer = players.peek();
+            secondPlayer.setCards(Deck.giveCards());
+            players.poll();
+            players.offer(secondPlayer);
+            Player thirdPlayer = players.peek();
+            thirdPlayer.setCards(Deck.giveCards());
+            players.poll();
+            players.offer(thirdPlayer);
+            Player fourthPlayer = players.peek();
+            fourthPlayer.setCards(Deck.giveCards());
+            players.poll();
+            players.offer(fourthPlayer);
             switch (round%4){
                 case 1:
-                    player1.swap3Cards(player2);
-                    player2.swap3Cards(player3);
-                    player3.swap3Cards(player4);
-                    player4.swap3Cards(player1);
+                    firstPlayer.swap3Cards(secondPlayer);
+                    secondPlayer.swap3Cards(thirdPlayer);
+                    thirdPlayer.swap3Cards(fourthPlayer);
+                    fourthPlayer.swap3Cards(firstPlayer);
                     break;
                 case 2:
-                    player1.swap3Cards(player4);
-                    player2.swap3Cards(player1);
-                    player3.swap3Cards(player2);
-                    player4.swap3Cards(player3);
+                    firstPlayer.swap3Cards(fourthPlayer);
+                    secondPlayer.swap3Cards(firstPlayer);
+                    thirdPlayer.swap3Cards(secondPlayer);
+                    fourthPlayer.swap3Cards(thirdPlayer);
                     break;
                 case 3:
-                    player1.swap3Cards(player3);
-                    player2.swap3Cards(player4);
-                    player3.swap3Cards(player1);
-                    player4.swap3Cards(player2);
+                    firstPlayer.swap3Cards(thirdPlayer);
+                    secondPlayer.swap3Cards(fourthPlayer);
+                    thirdPlayer.swap3Cards(firstPlayer);
+                    fourthPlayer.swap3Cards(secondPlayer);
                     break; 
                 default: 
                     break;
             }
 
-            Player firstPlayer = null;
+            Player firstPlayerToPlay = null;
             Queue<Player> playersTurn;
             while(true){       
                 if(turn == 1){
                     firstPlayer = searchPlayerWithTwoOfClub();
                 }
-                playersTurn = orderPlayer(firstPlayer);
+                playersTurn = orderPlayer(firstPlayerToPlay);
                 Queue<Card> turnDeck = new LinkedList<>();
                 Player firstPlayerInTurn = playersTurn.poll();
                 playersTurn.offer(firstPlayerInTurn);

@@ -14,10 +14,10 @@ import fr.pantheonsorbonne.miage.game.DumpPlayer;
 import fr.pantheonsorbonne.miage.game.Player;
 
 public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
-    
+    private Queue<Player> players;
 
-    public LocalQueenOfSpadesGame (Player player1, Player player2, Player player3, Player player4, Queue<Player>players){
-        super(player1, player2, player3, player4, players);
+    public LocalQueenOfSpadesGame (Queue<Player>players){
+        this.players = players;
     }
     
     @Override
@@ -111,8 +111,7 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
     }
     @Override
     public Queue<Player> orderPlayer(Player first){
-        Queue<Player> queue = new LinkedList<>();
-        queue.addAll(Arrays.asList(player1, player2, player3, player4));
+        Queue<Player> queue = players;
         Player playerPeeked = queue.peek();
         while(!first.equals(playerPeeked)){
             queue.poll();
@@ -121,8 +120,21 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
         }
         return queue;
     }
+    @Override
+    public Queue<Player> getPlayers(){
+        return this.players;
+    }
         public static void main(String[] args){
-            LocalQueenOfSpadesGame localQueenOfSpadesGame = new LocalQueenOfSpadesGame(new DumpPlayer("player1"), new DumpPlayer("player2"), new DumpPlayer("player3"), new DumpPlayer("player4"), new LinkedList<Player>());
+            Player player1 = new DumpPlayer("player1");
+            Player player2 = new DumpPlayer("player2");
+            Player player3 = new DumpPlayer("player3");
+            Player player4 = new DumpPlayer("player4");
+            Queue<Player> players = new LinkedList<Player>();
+            players.add(player1);
+            players.add(player2);
+            players.add(player3);
+            players.add(player4);
+            LocalQueenOfSpadesGame localQueenOfSpadesGame = new LocalQueenOfSpadesGame(players);
             localQueenOfSpadesGame.play();
             System.exit(0);
     }
