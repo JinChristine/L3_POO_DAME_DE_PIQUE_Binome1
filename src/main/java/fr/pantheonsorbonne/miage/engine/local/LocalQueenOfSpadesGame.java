@@ -84,8 +84,8 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
 
     @Override
     public Player getPlayerWithLowestPoints(){
-        Player playerWithLowestPoints = this.players.peek();
-        for(Player currentPlayer: this.players){
+        Player playerWithLowestPoints = players.peek();
+        for(Player currentPlayer: players){
             if (currentPlayer.getPoints() < playerWithLowestPoints.getPoints() ){
                 playerWithLowestPoints = currentPlayer;
             }
@@ -96,8 +96,12 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
     @Override
     public Player searchPlayerWithTwoOfClub(){
         Player firstPlayer = null;
-        for(Player player : this.players){
+        for(Player player : players){
             for(Card card: player.getCards()){
+                System.out.println(card.getValue().getRank());
+                System.out.println(card.getColor());
+                System.out.println( CardColor.valueOf("CLUB"));
+                System.out.println(card.getColor() == CardColor.valueOf("CLUB"));
                 if(card.getValue().getRank() == 2 && card.getColor() == CardColor.valueOf("CLUB")){
                     firstPlayer = player;
                 }
