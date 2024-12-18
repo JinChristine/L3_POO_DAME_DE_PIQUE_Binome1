@@ -4,22 +4,23 @@ import fr.pantheonsorbonne.miage.game.Player;
 import fr.pantheonsorbonne.miage.game.SmartPlayer;
 import fr.pantheonsorbonne.miage.enums.CardColor;
 import fr.pantheonsorbonne.miage.game.Card;
+import fr.pantheonsorbonne.miage.game.DumpPlayer;
 
 import java.util.*;
 
 
-public class QueenOfSpadesGame {
-    private Player player1;
-    private Player player2;
-    private Player player3;
-    private Player player4;
-    private Queue<Player> players;
+public abstract class QueenOfSpadesGame {
+    protected Player player1;
+    protected Player player2;
+    protected Player player3;
+    protected Player player4;
+    protected Queue<Player> players;
 
     public QueenOfSpadesGame(Player player1, Player player2, Player player3, Player player4, Queue<Player>players){
-        this.player1 = new SmartPlayer("player1");
-        this.player2 = new SmartPlayer("player2");
-        this.player3 = new SmartPlayer("player3");
-        this.player4 = new SmartPlayer("player4");
+        this.player1 = new DumpPlayer("player1");
+        this.player2 = new DumpPlayer("player2");
+        this.player3 = new DumpPlayer("player3");
+        this.player4 = new DumpPlayer("player4");
         this.players = new LinkedList<>();
         this.players.add(player1);
         this.players.add(player2);
@@ -27,73 +28,13 @@ public class QueenOfSpadesGame {
         this.players.add(player4);
     }
 
-    public Card getWinnerCard(Queue<Card> roundDeck){
-        Card highCardValue = roundDeck.peek();
-        Card currentCard = roundDeck.peek();
-        while(!roundDeck.isEmpty()){
-            if (currentCard.getValue().getRank() > highCardValue.getValue().getRank()){
-                highCardValue = currentCard;
-            }
-            currentCard = roundDeck.peek();
-        }
-        return highCardValue;
-    }
-
-    public int givePointsToWinnerTurn(Queue<Card> roundDeck){
-        int countPointsHeartCards = 0;
-        Card currentCard = roundDeck.peek();
-        while (!roundDeck.isEmpty()){
-            if(currentCard.getColor().toString().equals("Spade")){
-                if(currentCard.getValue().toString().equals("Queen")){
-                    countPointsHeartCards += 13;
-                }
-            }
-            else if (currentCard.getColor().toString().equals("Heart")){
-                countPointsHeartCards++;
-            }
-            roundDeck.poll();
-            currentCard = roundDeck.peek();
-        }
-        return countPointsHeartCards;
-    }
-
-    public Player getWinnerTurn(Queue<Player> playersOrder, Queue<Card> roundDeck){
-        Player winnerPlayer = null;
-        Card winnerCard = getWinnerCard(roundDeck);
-        Card currentCard = roundDeck.peek();
-        Player currentPlayer = playersOrder.peek();
-        while(currentCard != winnerCard){
-            roundDeck.poll();
-            playersOrder.poll();
-            currentCard = roundDeck.peek();
-            currentPlayer = playersOrder.peek();
-            
-        }
-        winnerPlayer = currentPlayer;
-        winnerPlayer.setPoints(givePointsToWinnerTurn(roundDeck));
-        return winnerPlayer;
-    }
-    public boolean firstPlayerHas100(Queue<Player> players){
-        while(!players.isEmpty()){
-            if(players.peek().getPoints() >= 100){
-                return true;
-            }
-            else{
-                players.poll();
-            }
-        }
-        return false;
-    }
-
-    public Player getPlayerWithLowestPoints(){
-        Player playerWithLowestPoints = this.players.peek();
-        for(Player currentPlayer: this.players){
-            if (currentPlayer.getPoints() < playerWithLowestPoints.getPoints() ){
-                playerWithLowestPoints = currentPlayer;
-            }
-        }
-        return playerWithLowestPoints; 
-    }
+    protected abstract Card getWinnerCard(Queue<Card> roundDeck);
+    protected abstract int givePointsToWinnerTurn(Queue<Card> roundDeck);
+    protected abstract Player getWinnerTurn(Queue<Player> playersOrder, Queue<Card> roundDeck);
+    protected abstract boolean firstPlayerHas100(Queue<Player> players);
+    protected abstract Player getPlayerWithLowestPoints();
+    protected abstract Player searchPlayerWithTwoOfClub();
+    protected abstract  Queue<Player> orderPlayer(Player first);
 
     public void play(){
         int turn = 1;
@@ -160,32 +101,4 @@ public class QueenOfSpadesGame {
         }
     }
 
-    public Player searchPlayerWithTwoOfClub(){
-        Player firstPlayer = null;
-        for(Player player : this.players){
-            for(Card card: player.getCards()){
-                if(card.getValue().getRank() == 2 && card.getColor() == CardColor.valueOf("CLUB")){
-                    firstPlayer = player;
-                }
-            }
-        }
-        return firstPlayer;
-    }
-
-    public Queue<Player> orderPlayer(Player first){
-        Queue<Player> queue = new LinkedList<>();
-        queue.addAll(Arrays.asList(player1, player2, player3, player4));
-        Player playerPeeked = queue.peek();
-        while(!first.equals(playerPeeked)){
-            queue.poll();
-            queue.offer(playerPeeked);
-            playerPeeked = queue.peek();
-        }
-        return queue;
-    }
-    
-    public static void main(String[] args){
-        //QueenOfSpadesGame queenOfSpadesGame = new QueenOfSpadesGame();
-        //queenOfSpadesGame.play();
-    }
 }
