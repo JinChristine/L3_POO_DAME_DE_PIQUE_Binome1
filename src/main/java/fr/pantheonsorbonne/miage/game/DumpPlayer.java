@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.miage.game;
 import java.util.Queue;
 import java.util.Random;
 import fr.pantheonsorbonne.miage.enums.CardColor;
+import java.util.List;
 
 public class DumpPlayer extends Player {
 
@@ -12,24 +13,26 @@ public class DumpPlayer extends Player {
 
     @Override
     public Card throwCard(Queue<Card> roundDeck, int turn) {
-        int index = getRandom(this.cards.length);
-        Card cardToPlay = getRandomCard(index);
+        List<Card> listCardNotNull = getCardListNotNull(cards);
+        int index = getRandom(listCardNotNull.size());
+        Card cardToPlay = getRandomCard(index, listCardNotNull);
         while (true) {
             if (haveSameColorInDeck(roundDeck)) {
-                cardToPlay = getCardWithSameColorInDeck(roundDeck);
+                cardToPlay = getCardWithSameColorInDeck(roundDeck, listCardNotNull);
                 break;
             } else if (turn == 1) {
                 if (cardToPlay.getColor().equals(CardColor.valueOf("HEART"))) {
-                    index = getRandom(this.cards.length);
-                    cardToPlay = getRandomCard(index);
-                } else {
-                    break;
+                    index = getRandom(listCardNotNull.size());
+                    cardToPlay = getRandomCard(index, listCardNotNull);
                 }
             }
+            else {
+                break;
+            }
+
         }
-        Card temp = cardToPlay;
-        this.cards[index] = null;
-        return temp;
+        replaceBestCardsInDeckByNull(cardToPlay);
+        return cardToPlay;
     }
 
     public int getRandom(int max) {
@@ -37,25 +40,16 @@ public class DumpPlayer extends Player {
         return rand.nextInt(0, max);
     }
 
-    public Card getRandomCard(int i) {
-        return this.cards[i];
+    public Card getRandomCard(int i, List<Card> listCardNotNull) {
+        return listCardNotNull.get(i);
     }
 
-    public Card getCardWithSameColorInDeck(Queue<Card> roundDeck) {
+    public Card getCardWithSameColorInDeck(Queue<Card> roundDeck, List<Card> listCardNotNull) {
         while (true) {
-            Card randomCard = getRandomCard(getRandom(this.cards.length));
+            Card randomCard = getRandomCard(getRandom(this.cards.length), listCardNotNull);
             if (roundDeck.peek().getColor().equals(randomCard.getColor())) {
                 return randomCard;
             }
         }
     }
-
-    protected void replaceBestCardsInDeckByNull(Card bestCard){
-        for(int i = 0; i<this.cards.length;i++){
-            if(this.cards[i].getValue().getRank() == bestCard.getValue().getRank()){
-                this.cards[i]=null;
-            }
-        }
-    }
-
 }
