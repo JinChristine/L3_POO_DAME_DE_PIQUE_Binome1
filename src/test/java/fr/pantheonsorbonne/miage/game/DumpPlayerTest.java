@@ -5,9 +5,9 @@ import java.util.Random;
 import fr.pantheonsorbonne.miage.enums.CardColor;
 import java.util.List;
 
-public class DumpPlayer extends Player {
+public class DumpPlayerTest extends Player {
 
-    public DumpPlayer(String name) {
+    public DumpPlayerTest(String name) {
         super(name);
     }
 

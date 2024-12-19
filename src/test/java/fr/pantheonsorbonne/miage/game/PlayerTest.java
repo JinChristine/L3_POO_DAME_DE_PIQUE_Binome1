@@ -4,12 +4,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public abstract class Player {
+public abstract class PlayerTest {
     private String name;
     protected Card[] cards;
     protected int points;
 
-    public Player(String name) {
+    public PlayerTest(String name) {
         this.name = name;
         this.cards = new Card[13];
         this.points = 0;

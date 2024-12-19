@@ -9,14 +9,14 @@ import java.util.Queue;
 import fr.pantheonsorbonne.miage.engine.QueenOfSpadesGame;
 import fr.pantheonsorbonne.miage.enums.CardColor;
 import fr.pantheonsorbonne.miage.game.Card;
-import fr.pantheonsorbonne.miage.game.Deck;
+import fr.pantheonsorbonne.miage.game.DeckTest;
 import fr.pantheonsorbonne.miage.game.DumpPlayer;
-import fr.pantheonsorbonne.miage.game.Player;
+import fr.pantheonsorbonne.miage.game.PlayerTest;
 
 public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
-    private Queue<Player> players;
+    private Queue<PlayerTest> players;
 
-    public LocalQueenOfSpadesGame (Queue<Player>players){
+    public LocalQueenOfSpadesGame (Queue<PlayerTest>players){
         this.players = players;
     }
     
@@ -52,11 +52,11 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
         return countPointsHeartCards;
     }
     @Override
-    public Player getWinnerTurn(Queue<Player> playersOrder, Queue<Card> roundDeck){
-        Player winnerPlayer = null;
+    public PlayerTest getWinnerTurn(Queue<PlayerTest> playersOrder, Queue<Card> roundDeck){
+        PlayerTest winnerPlayer = null;
         Card winnerCard = getWinnerCard(roundDeck);
         Card currentCard = roundDeck.peek();
-        Player currentPlayer = playersOrder.peek();
+        PlayerTest currentPlayer = playersOrder.peek();
         while(currentCard != winnerCard){
             roundDeck.poll();
             playersOrder.poll();
@@ -70,7 +70,7 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
     }
 
     @Override
-    public boolean firstPlayerHas100(Queue<Player> players){
+    public boolean firstPlayerHas100(Queue<PlayerTest> players){
         while(!players.isEmpty()){
             if(players.peek().getPoints() >= 100){
                 return true;
@@ -83,9 +83,9 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
     }
 
     @Override
-    public Player getPlayerWithLowestPoints(){
-        Player playerWithLowestPoints = players.peek();
-        for(Player currentPlayer: players){
+    public PlayerTest getPlayerWithLowestPoints(){
+        PlayerTest playerWithLowestPoints = players.peek();
+        for(PlayerTest currentPlayer: players){
             if (currentPlayer.getPoints() < playerWithLowestPoints.getPoints() ){
                 playerWithLowestPoints = currentPlayer;
             }
@@ -94,9 +94,9 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
     }
 
     @Override
-    public Player searchPlayerWithTwoOfClub(){
-        Player firstPlayer = null;
-        for(Player player : players){
+    public PlayerTest searchPlayerWithTwoOfClub(){
+        PlayerTest firstPlayer = null;
+        for(PlayerTest player : players){
             for(Card card: player.getCards()){
                 System.out.println(card.getValue().getRank());
                 System.out.println(card.getColor());
@@ -110,9 +110,9 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
         return firstPlayer;
     }
     @Override
-    public Queue<Player> orderPlayer(Player first){
-        Queue<Player> queue = players;
-        Player playerPeeked = queue.peek();
+    public Queue<PlayerTest> orderPlayer(PlayerTest first){
+        Queue<PlayerTest> queue = players;
+        PlayerTest playerPeeked = queue.peek();
         while(!first.equals(playerPeeked)){
             queue.poll();
             queue.offer(playerPeeked);
@@ -121,15 +121,15 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
         return queue;
     }
     @Override
-    public Queue<Player> getPlayers(){
+    public Queue<PlayerTest> getPlayers(){
         return this.players;
     }
         public static void main(String[] args){
-            Player player1 = new DumpPlayer("player1");
-            Player player2 = new DumpPlayer("player2");
-            Player player3 = new DumpPlayer("player3");
-            Player player4 = new DumpPlayer("player4");
-            Queue<Player> players = new LinkedList<Player>();
+            PlayerTest player1 = new DumpPlayer("player1");
+            PlayerTest player2 = new DumpPlayer("player2");
+            PlayerTest player3 = new DumpPlayer("player3");
+            PlayerTest player4 = new DumpPlayer("player4");
+            Queue<PlayerTest> players = new LinkedList<PlayerTest>();
             players.add(player1);
             players.add(player2);
             players.add(player3);

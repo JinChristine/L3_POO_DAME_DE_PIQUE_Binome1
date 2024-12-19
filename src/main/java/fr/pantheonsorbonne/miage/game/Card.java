@@ -25,7 +25,7 @@ public class Card {
         CardValue value = getValue();
         CardColor color = getColor();
         
-        return "";
+        return value + " of " + color;
     }
 
 }
