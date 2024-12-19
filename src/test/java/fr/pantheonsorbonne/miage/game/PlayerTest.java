@@ -7,20 +7,30 @@ import fr.pantheonsorbonne.miage.enums.CardColor;
 import fr.pantheonsorbonne.miage.enums.CardValue;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public abstract class PlayerTest {
+public class PlayerTest {
     private Player player1;
     private Player player2;
     
     @BeforeEach
     public void setUp() {
-        player1 = new Player("Player 1");
-        player2 = new Player("Player 2");
+        player1 = new Player("Player 1"){
+            @Override
+            public Card throwCard(Queue<Card> roundDeck, int turn) {
+                return null;
+            } 
+        };
+        player2 = new Player("Player 2") {
+            @Override
+                public Card throwCard(Queue<Card> roundDeck, int turn) {
+                return null;
+            }
+        };
     }
+
     @Test
     public void testConstructor() {
         assertEquals("Player 1", player1.getName());
@@ -42,83 +52,38 @@ public abstract class PlayerTest {
         player1.setCards(cards);
         assertEquals(cards, player1.getCards());
     }
-/*
-    public String getName() {
-        return this.name;
+    @Test
+    public void testGetName() {
+        assertEquals("Player 1", player1.getName());
     }
 
-    public Card[] getCards() {
-        return this.cards;
+    @Test
+    public void testSwap3Cards() {
+        Card[] startCards = new Card[13];
+        startCards[0] = new Card(CardValue.FIVE, CardColor.CLUB);
+        startCards[1] = new Card(CardValue.THREE, CardColor.HEART);
+        player1.setCards(startCards);
+
+        player1.swap3Cards(player2);
+
+        assertNull(player1.getCards()[0]);
+        assertNotNull(player2.getCards()[0]);
+
     }
 
-    public void swap3Cards(Player otherPlayer) {
-        Card[] swapCardsHand1 = this.getSwap3Cards();
-        Card[] swapCardsHand2 = otherPlayer.getSwap3Cards();
+    @Test
+    void testHaveSameColorInDeck() {
+        Queue<Card> roundDeck = new LinkedList<>();
+        roundDeck.add(new Card(CardValue.FIVE, CardColor.CLUB));
 
-        swapCards(this, swapCardsHand1, swapCardsHand2);
-        swapCards(otherPlayer, swapCardsHand2, swapCardsHand1);
-
+        assertTrue(player1.haveSameColorInDeck(roundDeck));
     }
 
-    private Card[] getSwap3Cards() {
-        Card[] cardsToGive = new Card[3];
-        Card maxCard = this.cards[0];
-        int index = 0;
-        while (index != 2) {
-            for (Card card : this.cards) {
-                if (card.getValue().getRank() > maxCard.getValue().getRank()) {
-                    maxCard = card;
-                }
-            }
-            cardsToGive[index++] = maxCard;
-        }
-        return cardsToGive;
+    @Test
+    void testReplaceBestCardsInDeckByNull() {
+        Card bestCard = player1.getCards()[0];
+        player1.replaceBestCardsInDeckByNull(bestCard);
+        assertNull(player1.getCards()[0]);
     }
-
-    private void swapCards(Player player, Card[] swapCardsHand1, Card[] swapCardsHand2) {
-        Card[] handle = player.getCards();
-        for (int i = 0; i < handle.length; i++) {
-            for (int j = 0; j < swapCardsHand1.length; j++) {
-                if (handle[i].equals(swapCardsHand1[j])) {
-                    handle[i] = swapCardsHand2[j];
-                }
-            }
-        }
-        player.setCards(handle);
-    }
-
-    public abstract Card throwCard(Queue<Card> roundDeck, int turn);
-  
-    private boolean isNull(Card card){
-        return card.equals(null);
-    }
-
-    protected List<Card> getCardListNotNull(Card[] cards){
-        List<Card> list = new LinkedList<>();
-        for(Card card: cards){
-            if(!isNull(card)){
-                list.add(card);
-            }
-        }
-        return list;
-    }
-    
-    protected boolean haveSameColorInDeck(Queue<Card> roundDeck) {
-        Card firstPlayedCard = roundDeck.peek();
-        for (Card card : this.cards) {
-            if (card.getColor().equals(firstPlayedCard.getColor())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected void replaceBestCardsInDeckByNull(Card bestCard){
-        for(int i = 0; i<this.cards.length;i++){
-            if(this.cards[i].getValue().getRank() == bestCard.getValue().getRank()){
-                this.cards[i]=null;
-            }
-        }
-    }*/
 
 }

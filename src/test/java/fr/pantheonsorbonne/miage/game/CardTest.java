@@ -5,35 +5,65 @@ import fr.pantheonsorbonne.miage.enums.CardValue;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 
 public class CardTest {
 
-    private Card card;
+    private Card normalCard;
+    private Card jokerCard;
 
     @BeforeEach
     public void setUp (){
-        this.card = new Card(CardValue.ACE, CardColor.DIAMOND);
+        normalCard = new Card(CardValue.ACE, CardColor.DIAMOND);
+        jokerCard = new Card(CardValue.TWO, CardColor.HEART, true);
     }
 
     @Test
     public void testConstructor(){
-        card = new Card(CardValue.ACE, CardColor.DIAMOND);
-        assertEquals(CardValue.ACE, card.getValue());
-        assertEquals(CardColor.DIAMOND, card.getColor());
+        normalCard = new Card(CardValue.ACE, CardColor.DIAMOND);
+        assertEquals(CardValue.ACE, normalCard.getValue());
+        assertEquals(CardColor.DIAMOND, normalCard.getColor());
     }
 
+    @Test 
+    public void testIsJoker(){
+        assertTrue(jokerCard.isJoker());
+        assertFalse(normalCard.isJoker()); 
+    }
     @Test
     public void TestGetValue() {
-        assertEquals(CardValue.ACE, card.getValue());
+        assertEquals(CardValue.ACE, normalCard.getValue());
+        assertEquals(CardValue.TWO, jokerCard.getValue());
     }
 
     @Test
     public void TestGetColor() {
-        assertEquals(CardColor.DIAMOND, card.getColor());
+        assertEquals(CardColor.DIAMOND, normalCard.getColor());
+        assertEquals(CardColor.HEART, jokerCard.getColor());
     }
 
+    @Test
+    public void testSetIsJoker() {
+        normalCard.setIsJoker();
+        assertTrue(normalCard.isJoker());
+    }
+
+    @Test
+    public void testImitateCard() {
+        jokerCard.imitateCard(CardColor.DIAMOND, CardValue.KING);
+        assertEquals(CardValue.KING, jokerCard.getValue());
+        assertEquals(CardColor.DIAMOND, jokerCard.getColor());
+    }
+
+    @Test
+    public void testImitateCardWithNormalCard() {
+        normalCard.imitateCard(CardColor.CLUB, CardValue.QUEEN);
+        assertEquals(CardValue.ACE, normalCard.getValue());
+        assertEquals(CardColor.DIAMOND, normalCard.getColor());
+    }
     @Test
     public void TestToString(){
         Card newCard = new Card(CardValue.NINE, CardColor.HEART);
