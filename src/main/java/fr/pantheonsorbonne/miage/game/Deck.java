@@ -10,7 +10,7 @@ public class Deck {
     protected static Card[] cards;
     protected static int countDistributedCard;
 
-    public Card[] newDeck(){
+    public static void newDeck() {
         countDistributedCard = 0;
         cards = new Card[52];
         int index = 0;
@@ -38,7 +38,7 @@ public class Deck {
         }
     }
 
-    public Card[] getCards(){
+    public Card[] getCards() {
         return cards;
     }
 
