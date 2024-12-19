@@ -1,7 +1,6 @@
 package fr.pantheonsorbonne.miage.game;
 
 import java.util.Queue;
-import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

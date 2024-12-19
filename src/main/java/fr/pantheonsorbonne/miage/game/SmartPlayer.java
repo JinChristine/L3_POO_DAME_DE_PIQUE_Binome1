@@ -12,21 +12,20 @@ public class SmartPlayer extends Player{
 
     @Override
     public Card throwCard(Queue<Card> roundDeck, int turn) {
-        Card bestCards = this.cards[0];
+        Card bestCard = this.cards[0];
         if(turn == 1 && roundDeck.size()==0){
-            bestCards=this.cards[searchIndexOfTwoOfClub()];
-            replaceBestCardsInDeckByNull(bestCards);
-            return bestCards;
-
+            bestCard=this.cards[searchIndexOfTwoOfClub()];
+            replaceBestCardsInDeckByNull(bestCard);
+            return bestCard;
         }
         if (haveSameColorInDeck(roundDeck)) {
-            bestCards = playTheBestCardWhenSameColor(roundDeck);
+            bestCard = playTheBestCardWhenSameColor(roundDeck);
         } else {
-            bestCards = playTheBestCardWhenNotSameColor(turn, roundDeck);
+            bestCard = playTheBestCardWhenNotSameColor(turn, roundDeck);
         }
 
-        replaceBestCardsInDeckByNull(bestCards);
-        return bestCards;
+        replaceBestCardsInDeckByNull(bestCard);
+        return bestCard;
     }
 
     private Card playTheBestCardWhenNotSameColor(int turn, Queue<Card> roundDeck) {
