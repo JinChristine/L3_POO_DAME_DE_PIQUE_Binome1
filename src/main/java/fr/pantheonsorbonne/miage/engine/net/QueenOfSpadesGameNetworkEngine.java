@@ -1,5 +1,3 @@
-package fr.pantheonsorbonne.miage.engine.net;
-
 import java.util.Queue;
 import java.util.Set;
 import java.util.Deque;

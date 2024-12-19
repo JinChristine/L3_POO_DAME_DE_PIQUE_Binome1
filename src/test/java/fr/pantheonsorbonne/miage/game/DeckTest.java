@@ -1,18 +1,41 @@
 package fr.pantheonsorbonne.miage.game;
 
-import fr.pantheonsorbonne.miage.game.Card;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.pantheonsorbonne.miage.enums.CardColor;
 import fr.pantheonsorbonne.miage.enums.CardValue;
 
-import java.util.Random;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class Deck {
+public class DeckTest {
     private final static int DECK_SIZE = 13;
     private static Card[] cards;
     private static int countDistributedCard;
 
-    public static void newDeck(){
+    private Deck deck;
+
+    @BeforeEach
+    public void setup() {
+        this.deck = new Deck();
+        deck.resetCountDistributedCard();
+    }
+    @Test
+    public void testConstructor(){
+        Deck deck = new Deck();
+        assertNotNull(deck.getCards());
+        assertEquals(52, deck.getCards().length);
+
+    }
+    @Test
+    public void testGiveCards(){
+
+    }
+
+
+    static {
         countDistributedCard = 0;
         cards = new Card[52];
         int index = 0;
@@ -30,21 +53,32 @@ public class Deck {
         }
     }
 
-    public Card[] getCards(){
-        return cards;
-    }
 
     public static Card[] giveCards() {
         Card[] hand = new Card[DECK_SIZE];
         int index = 0;
         for (int i = countDistributedCard; i < cards.length; i++) {
             hand[index++] = cards[i];
-            if ((i + 1) % DECK_SIZE == 0) {
+            if ((i+1) % DECK_SIZE == 0) {
                 countDistributedCard = countDistributedCard + DECK_SIZE;
                 break;
             }
         }
         return hand;
     }
+
+
+    @Test
+    void getCard() {
+        Card card = deck.getCard();
+        Card newCard = null;
+        do {
+
+            assertNotEquals(card, newCard);
+            newCard = deck.getCard();
+        } while (newCard != null);
+
+    }
+
 
 }
