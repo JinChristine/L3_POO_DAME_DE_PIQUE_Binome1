@@ -61,7 +61,7 @@ public abstract class Player {
 
     private Card[] getSwap3Cards() {
         Card[] cardsToGive = new Card[3];
-        Card maxCard = this.cards[0];
+        Card maxCard;
         int index = 0;
         while (index != 3) {
             maxCard = this.cards[0];
