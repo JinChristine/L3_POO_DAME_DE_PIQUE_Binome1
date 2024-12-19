@@ -4,17 +4,14 @@ import java.util.Queue;
 
 import fr.pantheonsorbonne.miage.enums.CardColor;
 
-public class SmartPlayer extends PlayerTest{
+public class SmartPlayerTest extends Player{
 
-    public SmartPlayer(String name) {
+    public SmartPlayerTest(String name) {
         super(name);
     }
 
     @Override
     public Card throwCard(Queue<Card> roundDeck, int turn) {
-        if(turn == 1 && roundDeck.size()==0){
-            return this.cards[searchIndexOfTwoOfClub()];
-        }
         Card bestCards = this.cards[0];
         if (haveSameColorInDeck(roundDeck)) {
             bestCards = playTheBestCardWhenSameColor(roundDeck);

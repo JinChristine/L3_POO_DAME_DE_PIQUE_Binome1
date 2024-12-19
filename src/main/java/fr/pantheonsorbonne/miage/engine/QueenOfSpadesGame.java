@@ -1,6 +1,10 @@
 package fr.pantheonsorbonne.miage.engine;
 import fr.pantheonsorbonne.miage.game.Deck;
 import fr.pantheonsorbonne.miage.game.Player;
+import fr.pantheonsorbonne.miage.game.DeckTest;
+import fr.pantheonsorbonne.miage.game.PlayerTest;
+import fr.pantheonsorbonne.miage.game.SmartPlayerTets;
+import fr.pantheonsorbonne.miage.enums.CardColor;
 import fr.pantheonsorbonne.miage.game.Card;
 
 import java.util.*;
@@ -11,14 +15,14 @@ public abstract class QueenOfSpadesGame {
     public QueenOfSpadesGame(){
     }
 
-    protected abstract Queue<Player> getPlayers();
+    protected abstract Queue<PlayerTest> getPlayers();
     protected abstract Card getWinnerCard(Queue<Card> roundDeck);
     protected abstract int givePointsToWinnerTurn(Queue<Card> roundDeck);
-    protected abstract Player getWinnerTurn(Queue<Player> playersOrder, Queue<Card> roundDeck);
-    protected abstract boolean firstPlayerHas100(Queue<Player> players);
-    protected abstract Player getPlayerWithLowestPoints();
-    protected abstract Player searchPlayerWithTwoOfClub();
-    protected abstract  Queue<Player> orderPlayer(Player first);
+    protected abstract PlayerTest getWinnerTurn(Queue<PlayerTest> playersOrder, Queue<Card> roundDeck);
+    protected abstract boolean firstPlayerHas100(Queue<PlayerTest> players);
+    protected abstract PlayerTest getPlayerWithLowestPoints();
+    protected abstract PlayerTest searchPlayerWithTwoOfClub();
+    protected abstract  Queue<PlayerTest> orderPlayer(PlayerTest first);
 
     public void play(){
         int turn = 1;
@@ -35,16 +39,16 @@ public abstract class QueenOfSpadesGame {
             firstPlayer.setCards(Deck.giveCards());
             players.poll();
             players.offer(firstPlayer);
-            Player secondPlayer = players.peek();
-            secondPlayer.setCards(Deck.giveCards());
+            PlayerTest secondPlayer = players.peek();
+            secondPlayer.setCards(DeckTest.giveCards());
             players.poll();
             players.offer(secondPlayer);
-            Player thirdPlayer = players.peek();
-            thirdPlayer.setCards(Deck.giveCards());
+            PlayerTest thirdPlayer = players.peek();
+            thirdPlayer.setCards(DeckTest.giveCards());
             players.poll();
             players.offer(thirdPlayer);
-            Player fourthPlayer = players.peek();
-            fourthPlayer.setCards(Deck.giveCards());
+            PlayerTest fourthPlayer = players.peek();
+            fourthPlayer.setCards(DeckTest.giveCards());
             players.poll();
             players.offer(fourthPlayer);
             switch (round%4){
@@ -70,29 +74,30 @@ public abstract class QueenOfSpadesGame {
                     break;
             }
 
-            Player firstPlayerToPlay = null;
-            Queue<Player> playersTurn;
+            PlayerTest firstPlayerToPlay = null;
+            Queue<PlayerTest> playersTurn;
             while(true){       
                 if(turn == 1){
                     firstPlayerToPlay = searchPlayerWithTwoOfClub();
                 }
                 playersTurn = orderPlayer(firstPlayerToPlay);
                 Queue<Card> turnDeck = new LinkedList<>();
-                Player firstPlayerInTurn = playersTurn.poll();
+                PlayerTest firstPlayerInTurn = playersTurn.poll();
                 playersTurn.offer(firstPlayerInTurn);
                 turnDeck.offer(firstPlayerInTurn.throwCard(turnDeck, turn));
-                Player secondPlayerInTurn = playersTurn.poll();
+                PlayerTest secondPlayerInTurn = playersTurn.poll();
                 playersTurn.offer(secondPlayerInTurn);
                 turnDeck.offer(secondPlayerInTurn.throwCard(turnDeck, turn));
-                Player thirdPlayerInTurn = playersTurn.poll();
+                PlayerTest thirdPlayerInTurn = playersTurn.poll();
                 playersTurn.offer(thirdPlayerInTurn);
                 turnDeck.offer(thirdPlayerInTurn.throwCard(turnDeck, turn));
-                Player fourthPlayerInTurn = playersTurn.poll();
+                PlayerTest fourthPlayerInTurn = playersTurn.poll();
                 playersTurn.offer(fourthPlayerInTurn);
                 turnDeck.offer(fourthPlayerInTurn.throwCard(turnDeck, turn));
-
+              
                 Player winnerTurn = getWinnerTurn(players, turnDeck);
                 firstPlayerToPlay = winnerTurn;
+
                 if (turn == 13){
                     System.out.println(getPlayerWithLowestPoints().getName() + " est en tête avec " + getPlayerWithLowestPoints().getPoints()+" point(s)");
                     break;
