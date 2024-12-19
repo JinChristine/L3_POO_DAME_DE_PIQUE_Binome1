@@ -1,7 +1,9 @@
 /*import java.util.Queue;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 
 import fr.pantheonsorbonne.miage.Facade;
 import fr.pantheonsorbonne.miage.HostFacade;
@@ -10,6 +12,7 @@ import fr.pantheonsorbonne.miage.exception.NoMoreCardException;
 import fr.pantheonsorbonne.miage.game.Card;
 import fr.pantheonsorbonne.miage.game.Deck;
 import fr.pantheonsorbonne.miage.game.Player;
+import fr.pantheonsorbonne.miage.game.SmartPlayer;
 import fr.pantheonsorbonne.miage.model.Game;
 import fr.pantheonsorbonne.miage.model.GameCommand;
 
@@ -19,9 +22,8 @@ public class QueenOfSpadesGameNetworkEngine extends QueenOfSpadesGame{
     private final HostFacade hostFacade;
     private final Set<String> players;
     private final Game war;
-    private final Queue<Player> playersGame;
 
-    public QueenOfSpadesGameNetworkEngine(Deque<Player> playersGame, HostFacade hostFacade, Set<String> players, fr.pantheonsorbonne.miage.model.Game war) {
+    public QueenOfSpadesGameNetworkEngine(HostFacade hostFacade, Set<String> players, fr.pantheonsorbonne.miage.model.Game war) {
         this.hostFacade = hostFacade;
         this.players = players;
         this.war = war;
@@ -44,10 +46,14 @@ public class QueenOfSpadesGameNetworkEngine extends QueenOfSpadesGame{
         QueenOfSpadesGameNetworkEngine host = new QueenOfSpadesGameNetworkEngine(hostFacade, war.getPlayers(), war);
         host.play();
         System.exit(0);
+
+
     }
+
+
     @Override
-    protected Card getWinnerCard(Queue<Card> roundDeck){
-        
+    protected List<String> getPlayers(){
+        return new ArrayList<>(this.war.getPlayers());
     }
 
     @Override
@@ -66,12 +72,12 @@ public class QueenOfSpadesGameNetworkEngine extends QueenOfSpadesGame{
     }
 
     @Override
-    protected Player getPlayerWithLowestPoints(){
+    protected Player getPlayerWithLowestPoints(Queue<Player> players){
 
     }
 
     @Override
-    protected Player searchPlayerWithTwoOfClub(){
+    protected Player searchPlayerWithTwoOfClub(Queue<Players> players){
 
     }
 
