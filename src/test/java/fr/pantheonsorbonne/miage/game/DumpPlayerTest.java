@@ -21,11 +21,12 @@ import java.util.List;
 
 public class DumpPlayerTest{
     private DumpPlayer player;
+    private Card[] initialHand;
 
     @BeforeEach
     public void setUp(){
         this.player = new DumpPlayer("Toto");
-        player.cards = new Card[] {
+        initialHand = new Card[] {
             new Card(CardValue.ACE, CardColor.HEART),
             new Card(CardValue.TWO, CardColor.CLUB),
             new Card(CardValue.THREE, CardColor.DIAMOND),
@@ -40,6 +41,7 @@ public class DumpPlayerTest{
             new Card(CardValue.THREE, CardColor.CLUB),
             new Card(CardValue.TEN, CardColor.SPADE)
         };
+        player.setCards(initialHand);
     }
 
     @Test
