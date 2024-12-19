@@ -59,14 +59,20 @@ public class PlayerTest {
 
     @Test
     public void testSwap3Cards() {
-        Card[] startCards = new Card[13];
-        startCards[0] = new Card(CardValue.FIVE, CardColor.CLUB);
-        startCards[1] = new Card(CardValue.THREE, CardColor.HEART);
-        player1.setCards(startCards);
+        Card[] startCardsPlayer1 = new Card[13];
+        startCardsPlayer1[0] = new Card(CardValue.FIVE, CardColor.CLUB);
+        startCardsPlayer1[1] = new Card(CardValue.THREE, CardColor.HEART);
+        startCardsPlayer1[2] = new Card(CardValue.KING, CardColor.SPADE);
+        player1.setCards(startCardsPlayer1);
+
+        Card[] startCardsPlayer2 = new Card[13];
+        startCardsPlayer2[0] = new Card(CardValue.TWO, CardColor.DIAMOND);
+        startCardsPlayer2[1] = new Card(CardValue.FOUR, CardColor.CLUB);
+        startCardsPlayer2[2] = new Card(CardValue.JACK, CardColor.HEART);
+        player2.setCards(startCardsPlayer2);
 
         player1.swap3Cards(player2);
-
-        assertNull(player1.getCards()[0]);
+        assertNotNull(player1.getCards()[0]);
         assertNotNull(player2.getCards()[0]);
 
     }
@@ -75,7 +81,10 @@ public class PlayerTest {
     void testHaveSameColorInDeck() {
         Queue<Card> roundDeck = new LinkedList<>();
         roundDeck.add(new Card(CardValue.FIVE, CardColor.CLUB));
-
+        Card[] cards = new Card[13];
+        cards[0] = new Card(CardValue.SEVEN, CardColor.CLUB);
+        cards[1] = new Card(CardValue.ACE, CardColor.HEART);
+        player1.setCards(cards);
         assertTrue(player1.haveSameColorInDeck(roundDeck));
     }
 

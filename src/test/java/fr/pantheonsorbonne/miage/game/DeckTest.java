@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import fr.pantheonsorbonne.miage.enums.CardColor;
 import fr.pantheonsorbonne.miage.enums.CardValue;
+import fr.pantheonsorbonne.miage.game.Deck;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -13,51 +14,57 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DeckTest {
-    private Deck deck;
 
     @BeforeEach
     public void setup() {
-        this.deck = new Deck();
+        Deck.newDeck();
     }
+
     @Test
-    public void testConstructor(){
-        Card[] cards = deck.newDeck();
+    public void testConstructor() {
+        Card[] cards = Deck.getCards();
         assertNotNull(cards.length);
-        assertEquals(52, deck.getCards().length);
+        assertEquals(52, Deck.getCards().length);
 
     }
 
     @Test
-    public void testGiveCards(){
-        Card[] hand = deck.giveCards();
+    public void testGiveCards() {
+        Card[] hand = Deck.giveCards();
         assertEquals(13, hand.length);
         assertNotNull(hand[0]);
     }
+
     @Test
     public void testCountDistributedCardIncreases() {
-        Card[] hand1 = deck.giveCards();
-        assertEquals(13, deck.getCountDistributedCard());
+        Card[] hand1 = Deck.giveCards();
+        assertEquals(13, Deck.getCountDistributedCard());
 
-        Card[] hand2 = deck.giveCards();
-        assertEquals(26, deck.getCountDistributedCard());
+        Card[] hand2 = Deck.giveCards();
+        assertEquals(26, Deck.getCountDistributedCard());
 
         assertNotSame(hand1, hand2);
     }
 
     @Test
-    public void testCardsAreShuffled() {
-        Card[] deckCards = deck.newDeck().clone();
-        deck.shuffleDeck(deckCards);
-        assertNotEquals(java.util.Arrays.toString(deckCards), java.util.Arrays.toString(deck.getCards()));
+    public static void testCardsAreShuffled() {
+        Card[] deckCards = Deck.getCards().clone();
+        Deck.shuffleDeck(deckCards);
+        boolean isShuffled = false;
+        for (int i = 0; i < deckCards.length; i++) {
+            if (!deckCards[i].equals(Deck.getCards()[i])) {
+                isShuffled = true;
+                break;
+            }
+        }
+        assertTrue(isShuffled, "Les cartes doivent être mélangées");
     }
 
     @Test
     public void testGetCards() {
-        deck.newDeck();
-        Card[] newCard = deck.getCards();
+        Card[] newCard = Deck.getCards();
         assertNotNull(newCard);
         assertEquals(52, newCard.length);
     }
-
 
 }

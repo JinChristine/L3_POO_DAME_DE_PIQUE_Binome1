@@ -43,11 +43,11 @@ public class Deck {
         }
     }
 
-    public Card[] getCards() {
+    public static Card[] getCards() {
         return cards;
     }
 
-    public int getCountDistributedCard(){
+    public static int getCountDistributedCard(){
         return countDistributedCard;
     }
 

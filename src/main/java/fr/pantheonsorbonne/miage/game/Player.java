@@ -67,7 +67,7 @@ public abstract class Player {
         while (index != 3) {
             maxCard = this.cards[0];
             for (Card card : this.cards) {
-                if (card.getValue().getRank() > maxCard.getValue().getRank() && notInCardsToGive(card, cardsToGive)) {
+                if (card!=null && card.getValue().getRank() > maxCard.getValue().getRank() && notInCardsToGive(card, cardsToGive)) {
                     maxCard = card;
                 }
             }
@@ -90,7 +90,7 @@ public abstract class Player {
         Card[] handle = player.getCards();
         for (int i = 0; i < handle.length; i++) {
             for (int j = 0; j < swapCardsHand1.length; j++) {
-                if (handle[i].equals(swapCardsHand1[j])) {
+                if (handle[i] != null && handle[i].equals(swapCardsHand1[j])) {
                     handle[i] = swapCardsHand2[j];
                 }
             }
