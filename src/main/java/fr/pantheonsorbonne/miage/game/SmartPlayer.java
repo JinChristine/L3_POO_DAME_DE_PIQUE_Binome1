@@ -4,7 +4,7 @@ import java.util.Queue;
 
 import fr.pantheonsorbonne.miage.enums.CardColor;
 
-public class SmartPlayer extends PlayerTest{
+public class SmartPlayer extends Player{
 
     public SmartPlayer(String name) {
         super(name);

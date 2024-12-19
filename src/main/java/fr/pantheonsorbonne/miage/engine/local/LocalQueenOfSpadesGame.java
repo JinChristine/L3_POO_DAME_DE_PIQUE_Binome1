@@ -1,15 +1,11 @@
 package fr.pantheonsorbonne.miage.engine.local;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 import fr.pantheonsorbonne.miage.engine.QueenOfSpadesGame;
 import fr.pantheonsorbonne.miage.enums.CardColor;
 import fr.pantheonsorbonne.miage.game.Card;
-import fr.pantheonsorbonne.miage.game.Deck;
 import fr.pantheonsorbonne.miage.game.DumpPlayer;
 import fr.pantheonsorbonne.miage.game.Player;
 import fr.pantheonsorbonne.miage.game.SmartPlayer;
