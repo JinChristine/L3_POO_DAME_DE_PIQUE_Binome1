@@ -40,9 +40,6 @@ public class SmartPlayer extends Player{
             }
 
             for (Card card : cardListNotNull) {
-                if(card.equals(null)){
-                    continue;
-                }
                 if (card.getColor().equals(CardColor.SPADE) && card.getValue().getRank() == 12
                         && turn != 1) {
                     bestCard = card;

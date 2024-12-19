@@ -65,10 +65,10 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
             playersOrderCopy.poll();
             currentCard = roundDeckCopy.peek();
             currentPlayer = playersOrderCopy.peek();
-            
         }
         winnerPlayer = currentPlayer;
         winnerPlayer.setPoints(winnerPlayer.getPoints()+givePointsToWinnerTurn(roundDeck));
+        System.out.println("Le gagnant du tour est: "+winnerPlayer.getName()+ " qui a obtenu "+givePointsToWinnerTurn(roundDeck)+" point(s)");
         return winnerPlayer;
     }
 
@@ -128,8 +128,8 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
         public static void main(String[] args){
             Player player1 = new SmartPlayer("player1");
             Player player2 = new SmartPlayer("player2");
-            Player player3 = new SmartPlayer("player3");
-            Player player4 = new SmartPlayer("player4");
+            Player player3 = new DumpPlayer("player3");
+            Player player4 = new DumpPlayer("player4");
             Queue<Player> players = new LinkedList<Player>();
             players.add(player1);
             players.add(player2);
