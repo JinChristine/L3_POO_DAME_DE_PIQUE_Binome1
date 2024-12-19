@@ -1,10 +1,7 @@
 package fr.pantheonsorbonne.miage.engine;
 import fr.pantheonsorbonne.miage.game.Deck;
 import fr.pantheonsorbonne.miage.game.Player;
-import fr.pantheonsorbonne.miage.game.SmartPlayer;
-import fr.pantheonsorbonne.miage.enums.CardColor;
 import fr.pantheonsorbonne.miage.game.Card;
-import fr.pantheonsorbonne.miage.game.DumpPlayer;
 
 import java.util.*;
 

@@ -12,6 +12,7 @@ import fr.pantheonsorbonne.miage.game.Card;
 import fr.pantheonsorbonne.miage.game.Deck;
 import fr.pantheonsorbonne.miage.game.DumpPlayer;
 import fr.pantheonsorbonne.miage.game.Player;
+import fr.pantheonsorbonne.miage.game.SmartPlayer;
 
 public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
     private Queue<Player> players;
@@ -129,10 +130,10 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
         return this.players;
     }
         public static void main(String[] args){
-            Player player1 = new DumpPlayer("player1");
-            Player player2 = new DumpPlayer("player2");
-            Player player3 = new DumpPlayer("player3");
-            Player player4 = new DumpPlayer("player4");
+            Player player1 = new SmartPlayer("player1");
+            Player player2 = new SmartPlayer("player2");
+            Player player3 = new SmartPlayer("player3");
+            Player player4 = new SmartPlayer("player4");
             Queue<Player> players = new LinkedList<Player>();
             players.add(player1);
             players.add(player2);
