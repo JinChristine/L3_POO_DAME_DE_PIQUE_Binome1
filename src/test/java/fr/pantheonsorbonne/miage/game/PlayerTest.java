@@ -1,32 +1,48 @@
 package fr.pantheonsorbonne.miage.game;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import fr.pantheonsorbonne.miage.enums.CardColor;
+import fr.pantheonsorbonne.miage.enums.CardValue;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public abstract class Player {
-    private String name;
-    protected Card[] cards;
-    protected int points;
+import static org.junit.jupiter.api.Assertions.*;
 
-    public Player(String name) {
-        this.name = name;
-        this.cards = new Card[13];
-        this.points = 0;
+public abstract class PlayerTest {
+    private Player player1;
+    private Player player2;
+    
+    @BeforeEach
+    public void setUp() {
+        player1 = new Player("Player 1");
+        player2 = new Player("Player 2");
+    }
+    @Test
+    public void testConstructor() {
+        assertEquals("Player 1", player1.getName());
+        assertEquals(0, player1.getPoints());
+        assertNotNull(player1.getCards());
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    @Test
+    public void testSetAndGetPoints() {
+        player1.setPoints(10);
+        assertEquals(10, player1.getPoints());
     }
 
-    public int getPoints() {
-        return this.points;
+   
+    @Test
+    public void testSetAndGetCards() {
+        Card[] cards = new Card[13];
+        cards[0] = new Card(CardValue.ACE, CardColor.HEART);
+        player1.setCards(cards);
+        assertEquals(cards, player1.getCards());
     }
-
-    public void setCards(Card[] cards) {
-        this.cards = cards;
-    }
-
+/*
     public String getName() {
         return this.name;
     }
@@ -103,6 +119,6 @@ public abstract class Player {
                 this.cards[i]=null;
             }
         }
-    }
+    }*/
 
 }

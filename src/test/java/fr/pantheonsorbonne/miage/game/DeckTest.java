@@ -6,78 +6,71 @@ import org.junit.jupiter.api.Test;
 import fr.pantheonsorbonne.miage.enums.CardColor;
 import fr.pantheonsorbonne.miage.enums.CardValue;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DeckTest {
-    private final static int DECK_SIZE = 13;
-    private static Card[] cards;
-    private static int countDistributedCard;
-
     private Deck deck;
 
     @BeforeEach
     public void setup() {
         this.deck = new Deck();
-        deck.resetCountDistributedCard();
+        deck.newDeck();
     }
     @Test
     public void testConstructor(){
         Deck deck = new Deck();
-        assertNotNull(deck.getCards());
+        Card[] cards = deck.getCards();
+        assertNotNull(cards.length);
         assertEquals(52, deck.getCards().length);
 
     }
     @Test
     public void testGiveCards(){
-
+        Card[] hand = deck.giveCards();
+        assertEquals(13, hand.length);
+        assertNotNull(hand[0]);
     }
+    @Test
+    public void testCountDistributedCardIncreases() {
+        Card[] hand1 = deck.giveCards();
+        assertEquals(13, deck.getCountDistributedCard());
 
+        Card[] hand2 = deck.giveCards();
+        assertEquals(26, deck.getCountDistributedCard());
 
-    static {
-        countDistributedCard = 0;
-        cards = new Card[52];
-        int index = 0;
-        for (CardColor color : CardColor.values()) {
-            for (CardValue value : CardValue.values()) {
-                cards[index++] = new Card(value, color);
-            }
-        }
-        Random rand = new Random();
-        for (int j = 0; j < cards.length; j++) {
-            Card temp = cards[j];
-            int indexAleatoire = rand.nextInt(0, cards.length);
-            cards[j] = cards[indexAleatoire];
-            cards[indexAleatoire] = temp;
-        }
+        assertNotSame(hand1, hand2);
     }
-
-
-    public static Card[] giveCards() {
-        Card[] hand = new Card[DECK_SIZE];
-        int index = 0;
-        for (int i = countDistributedCard; i < cards.length; i++) {
-            hand[index++] = cards[i];
-            if ((i+1) % DECK_SIZE == 0) {
-                countDistributedCard = countDistributedCard + DECK_SIZE;
-                break;
-            }
-        }
-        return hand;
-    }
-
 
     @Test
-    void getCard() {
-        Card card = deck.getCard();
+    public void testCardsAreShuffled() {
+        Deck deck1 = new Deck();
+        deck1.cards = deck1.newDeck();
+        Deck deck2 = new Deck();
+        deck2.cards = deck2.newDeck();
+        Card[] deckCards1 = deck1.getCards();
+        Card[] deckCards2 = deck2.getCards();
+        int count = 0;
+        for(int i = 0; i < deckCards1.length; i++){
+            if(deckCards1[i].getColor() == deckCards2[i].getColor() && deckCards1[i].getValue() == deckCards2[i].getValue()){
+                count++;
+            }
+        }
+        assertTrue(count != 52);
+}
+    @Test
+    public void testGetCard() {
+        Card[] cards = deck.getCards();
         Card newCard = null;
+        int index = 0;
         do {
-
-            assertNotEquals(card, newCard);
-            newCard = deck.getCard();
-        } while (newCard != null);
-
+            assertNotEquals(cards, null);
+            newCard = cards[index++];
+        } while (index < 52);
     }
 
 

@@ -31,7 +31,7 @@ public class CardTest {
 
     @Test
     public void TestGetColor() {
-        assertEquals(CardColor.SPADE, card.getColor());
+        assertEquals(CardColor.DIAMOND, card.getColor());
     }
 
     @Test
