@@ -19,6 +19,16 @@ public class Deck {
                 cards[index++] = new Card(value, color);
             }
         }
+        shuffleDeck(cards);
+
+        Random rand2 = new Random();
+        int jokerIndex = rand2.nextInt(cards.length);
+        cards[jokerIndex].setIsJoker();
+
+        return cards;
+    }
+
+    public void shuffleDeck(Card[] cards){
         Random rand = new Random();
         for (int j = 0; j < cards.length; j++) {
             Card temp = cards[j];
@@ -26,7 +36,6 @@ public class Deck {
             cards[j] = cards[indexAleatoire];
             cards[indexAleatoire] = temp;
         }
-        return cards;
     }
 
     public Card[] getCards(){
