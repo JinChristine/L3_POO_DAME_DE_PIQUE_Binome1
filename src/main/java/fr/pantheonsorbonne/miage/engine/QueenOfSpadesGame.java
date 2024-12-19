@@ -119,8 +119,10 @@ public abstract class QueenOfSpadesGame {
 
                 System.out.println();
                 if (has20PointsInRoundDeck(turnDeck)) {
+                    System.out.println("La somme des points sur la table a atteint 20, jouons à un jeu un peu plus particulier !");
                     winnerTurn = givePlayerTappedFasterOnTheTable(players);
                 } else if (has21PointsInRoundDeck(turnDeck)) {
+                    System.out.println("La somme des points sur la table a atteint 21, tous les joueurs échangent leurs points et leur cartes avec le voisin à droite :)");
                     changeDeckAndPointsWithRightPlayer(playersTurn);
                 }
 

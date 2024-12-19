@@ -23,8 +23,8 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
         roundDeckCopy.addAll(roundDeck);
         Card highCardValue = roundDeckCopy.peek();
         Card currentCard = roundDeckCopy.peek();
-        while(!roundDeckCopy.isEmpty()){
-            if (currentCard.getValue().getRank() > highCardValue.getValue().getRank()){
+        while(currentCard!=null){
+            if ((currentCard.getValue().getRank() > highCardValue.getValue().getRank()) && (currentCard.getColor().equals(roundDeck.peek().getColor()))){
                 highCardValue = currentCard;
             }
             currentCard = roundDeckCopy.poll();
@@ -36,7 +36,7 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
     public int givePointsToWinnerTurn(Queue<Card> roundDeck){
         int countPointsHeartCards = 0;
         Card currentCard = roundDeck.peek();
-        while (!roundDeck.isEmpty()){
+        while (currentCard!=null){
             if(currentCard.getColor().equals(CardColor.SPADE)){
                 if(currentCard.getValue().getRank() == 12 ){
                     countPointsHeartCards += 13;
@@ -67,8 +67,9 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
             currentPlayer = playersOrderCopy.peek();
         }
         winnerPlayer = currentPlayer;
-        winnerPlayer.setPoints(winnerPlayer.getPoints()+givePointsToWinnerTurn(roundDeck));
-        System.out.println("Le gagnant du tour est: "+winnerPlayer.getName()+ " qui a obtenu "+givePointsToWinnerTurn(roundDeck)+" point(s)");
+        int points= givePointsToWinnerTurn(roundDeck);
+        winnerPlayer.setPoints(winnerPlayer.getPoints()+points);
+        System.out.println("Le gagnant du tour est: "+winnerPlayer.getName()+ " qui a obtenu "+points+" point(s)");
         return winnerPlayer;
     }
 
