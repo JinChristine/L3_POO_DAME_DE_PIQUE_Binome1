@@ -19,7 +19,7 @@ public class QueenOfSpadesGameNetworkEngine extends QueenOfSpadesGame{
     private final HostFacade hostFacade;
     private final Set<String> players;
     private final Game war;
-    private final 
+    private final Queue<Player> playersGame;
 
     public QueenOfSpadesGameNetworkEngine(Deque<Player> playersGame, HostFacade hostFacade, Set<String> players, fr.pantheonsorbonne.miage.model.Game war) {
         this.hostFacade = hostFacade;
