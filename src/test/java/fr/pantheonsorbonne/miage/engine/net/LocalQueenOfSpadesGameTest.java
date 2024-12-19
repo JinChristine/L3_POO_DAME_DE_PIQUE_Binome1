@@ -45,5 +45,57 @@ public class LocalQueenOfSpadesGameTest {
         assertEquals(12, winnerCard.getValue().getRank());
         assertEquals(CardColor.HEART, winnerCard.getColor());
     }
+
+    @Test
+    void testGivePointsToWinnerTurn(){
+        Queue<Card> roundDeck = new LinkedList<>();
+        roundDeck.add(new Card(CardValue.THREE,CardColor.HEART));
+        roundDeck.add(new Card(CardValue.THREE,CardColor.HEART));
+        roundDeck.add(new Card(CardValue.NINE,CardColor.HEART));
+        roundDeck.add(new Card(CardValue.QUEEN,CardColor.SPADE));
+        int points = game.givePointsToWinnerTurn(roundDeck);
+
+        assertEquals(15, points);
+    }
+
+    @Test
+    void testGetPlayerWithLowestPoints(){
+
+        Player p1 = players.peek();
+        p1.setPoints(10);
+        players.poll();
+        players.offer(p1);
+
+        Player p2 = players.peek();
+        p2.setPoints(70);
+        players.poll();
+        players.offer(p2);
+
+        Player p3 = players.peek();
+        p3.setPoints(50);
+        players.poll();
+        players.offer(p3);
+
+        Player p4 = players.peek();
+        p4.setPoints(30);
+        players.poll();
+        players.offer(p4);
+       
+
+        Player bestPlayer = game.getPlayerWithLowestPoints();
+
+        assertEquals("player1", bestPlayer.getName());
+
+    }
+
+    @Test
+    void testSearchPlayerWithTwoOfClub(){
+        Player firstPlayer = players.peek();
+        firstPlayer.getCards()[0] = new Card(CardValue.TWO,CardColor.CLUB);
+
+        Player result = game.searchPlayerWithTwoOfClub();
+
+        assertEquals(firstPlayer, result);
+    }
     
 }

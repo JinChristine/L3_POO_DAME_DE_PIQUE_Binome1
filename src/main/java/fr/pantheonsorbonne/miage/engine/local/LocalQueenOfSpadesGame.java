@@ -104,7 +104,7 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
         Player firstPlayer = null;
         for(Player player : players){
             for(Card card: player.getCards()){
-                if(card.getValue().getRank() == 2 && card.getColor().equals(CardColor.CLUB)){
+                if(card!=null && card.getValue().getRank() == 2 && card.getColor().equals(CardColor.CLUB)){
                     firstPlayer = player;
                 }
             }
