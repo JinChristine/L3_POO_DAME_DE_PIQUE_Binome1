@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import fr.pantheonsorbonne.miage.enums.CardColor;
+
 public abstract class Player {
     private String name;
     protected Card[] cards;
@@ -35,28 +37,52 @@ public abstract class Player {
         return this.cards;
     }
 
+    public String cardsToString() {
+        StringBuilder builder = new StringBuilder();
+        for (Card card : this.cards) {
+            if (!isNull(card)) {
+                builder.append("\t - " + card.toString());
+            } else {
+                builder.append("\t - ");
+            }
+            builder.append("\n ");
+        }
+        return builder.toString().substring(0, builder.length() - 2);
+
+    }
+
     public void swap3Cards(Player otherPlayer) {
         Card[] swapCardsHand1 = this.getSwap3Cards();
         Card[] swapCardsHand2 = otherPlayer.getSwap3Cards();
 
         swapCards(this, swapCardsHand1, swapCardsHand2);
         swapCards(otherPlayer, swapCardsHand2, swapCardsHand1);
-
     }
 
     private Card[] getSwap3Cards() {
         Card[] cardsToGive = new Card[3];
         Card maxCard = this.cards[0];
         int index = 0;
-        while (index != 2) {
+        while (index != 3) {
+            maxCard = this.cards[0];
             for (Card card : this.cards) {
-                if (card.getValue().getRank() > maxCard.getValue().getRank()) {
+                if (card.getValue().getRank() > maxCard.getValue().getRank() && notInCardsToGive(card, cardsToGive)) {
                     maxCard = card;
                 }
             }
             cardsToGive[index++] = maxCard;
         }
         return cardsToGive;
+    }
+
+    private boolean notInCardsToGive(Card card, Card[] cardsToGive) {
+        for (Card cardMax : cardsToGive) {
+            if (!isNull(cardMax) && card.getValue().getRank() == cardMax.getValue().getRank()
+                    && card.getColor().equals(cardMax.getColor())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void swapCards(Player player, Card[] swapCardsHand1, Card[] swapCardsHand2) {
@@ -72,24 +98,28 @@ public abstract class Player {
     }
 
     public abstract Card throwCard(Queue<Card> roundDeck, int turn);
-  
-    private boolean isNull(Card card){
-        return card.equals(null);
+
+    private boolean isNull(Card card) {
+        return card == null;
     }
 
-    protected List<Card> getCardListNotNull(Card[] cards){
+    protected List<Card> getCardListNotNull(Card[] cards) {
         List<Card> list = new LinkedList<>();
-        for(Card card: cards){
-            if(!isNull(card)){
-                list.add(card);
+        for (int i = 0; i < cards.length; i++) {
+            if (!isNull(cards[i])) {
+                list.add(cards[i]);
             }
         }
         return list;
     }
-    
+
     protected boolean haveSameColorInDeck(Queue<Card> roundDeck) {
+        List<Card> listCardNotNull = getCardListNotNull(this.cards);
+        if (roundDeck.size() == 0) {
+            return false;
+        }
         Card firstPlayedCard = roundDeck.peek();
-        for (Card card : this.cards) {
+        for (Card card : listCardNotNull) {
             if (card.getColor().equals(firstPlayedCard.getColor())) {
                 return true;
             }
@@ -97,12 +127,23 @@ public abstract class Player {
         return false;
     }
 
-    protected void replaceBestCardsInDeckByNull(Card bestCard){
-        for(int i = 0; i<this.cards.length;i++){
-            if(this.cards[i].getValue().getRank() == bestCard.getValue().getRank()){
-                this.cards[i]=null;
+    protected void replaceBestCardsInDeckByNull(Card bestCard) {
+        for (int i = 0; i < this.cards.length; i++) {
+            if (!isNull(cards[i]) && this.cards[i].getValue().getRank() == bestCard.getValue().getRank()
+                    && this.cards[i].getColor().equals(bestCard.getColor())) {
+                this.cards[i] = null;
             }
         }
+    }
+
+    protected int searchIndexOfTwoOfClub() {
+        for (int i = 0; i < this.cards.length; i++) {
+            if (!isNull(cards[i]) && cards[i].getValue().getRank() == 2
+                    && cards[i].getColor().equals(CardColor.valueOf("CLUB"))) {
+                return i;
+            }
+        }
+        return 0;
     }
 
 }

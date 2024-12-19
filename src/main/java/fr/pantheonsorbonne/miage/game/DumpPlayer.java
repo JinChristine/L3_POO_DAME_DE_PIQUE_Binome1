@@ -13,20 +13,22 @@ public class DumpPlayer extends Player {
 
     @Override
     public Card throwCard(Queue<Card> roundDeck, int turn) {
-        List<Card> listCardNotNull = getCardListNotNull(cards);
+        List<Card> listCardNotNull = getCardListNotNull(this.cards);
         int index = getRandom(listCardNotNull.size());
         Card cardToPlay = getRandomCard(index, listCardNotNull);
         while (true) {
             if (haveSameColorInDeck(roundDeck)) {
                 cardToPlay = getCardWithSameColorInDeck(roundDeck, listCardNotNull);
                 break;
+            } else if (turn == 1 && roundDeck.size() == 0) {
+                cardToPlay = this.cards[searchIndexOfTwoOfClub()];
+                break;
             } else if (turn == 1) {
                 if (cardToPlay.getColor().equals(CardColor.valueOf("HEART"))) {
                     index = getRandom(listCardNotNull.size());
                     cardToPlay = getRandomCard(index, listCardNotNull);
                 }
-            }
-            else {
+            } else {
                 break;
             }
 
@@ -36,6 +38,9 @@ public class DumpPlayer extends Player {
     }
 
     public int getRandom(int max) {
+        if(max == 1){
+            return 0;
+        }
         Random rand = new Random();
         return rand.nextInt(0, max);
     }
@@ -46,7 +51,7 @@ public class DumpPlayer extends Player {
 
     public Card getCardWithSameColorInDeck(Queue<Card> roundDeck, List<Card> listCardNotNull) {
         while (true) {
-            Card randomCard = getRandomCard(getRandom(this.cards.length), listCardNotNull);
+            Card randomCard = getRandomCard(getRandom(listCardNotNull.size()), listCardNotNull);
             if (roundDeck.peek().getColor().equals(randomCard.getColor())) {
                 return randomCard;
             }

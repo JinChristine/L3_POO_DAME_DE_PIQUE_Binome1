@@ -12,6 +12,9 @@ public class SmartPlayer extends PlayerTest{
 
     @Override
     public Card throwCard(Queue<Card> roundDeck, int turn) {
+        if(turn == 1 && roundDeck.size()==0){
+            return this.cards[searchIndexOfTwoOfClub()];
+        }
         Card bestCards = this.cards[0];
         if (haveSameColorInDeck(roundDeck)) {
             bestCards = playTheBestCardWhenSameColor(roundDeck);
