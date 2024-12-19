@@ -3,10 +3,6 @@ package fr.pantheonsorbonne.miage.game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import fr.pantheonsorbonne.miage.enums.CardColor;
-import fr.pantheonsorbonne.miage.enums.CardValue;
-import fr.pantheonsorbonne.miage.game.Deck;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
