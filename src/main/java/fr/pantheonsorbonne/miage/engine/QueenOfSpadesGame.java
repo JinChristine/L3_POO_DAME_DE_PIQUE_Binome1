@@ -10,10 +10,8 @@ import java.util.*;
 
 
 public abstract class QueenOfSpadesGame {
-    private Queue<Player> players;
 
     public QueenOfSpadesGame(){
-        
     }
 
     protected abstract Queue<Player> getPlayers();
@@ -28,8 +26,14 @@ public abstract class QueenOfSpadesGame {
     public void play(){
         int turn = 1;
         int round = 0;
-        while (!firstPlayerHas100(players)){
+        final Queue<Player> players = getPlayers();
+        while (true){
+            if(firstPlayerHas100(players)){
+                System.out.println(getPlayerWithLowestPoints().getName() + "a gagné la partie avec "+getPlayerWithLowestPoints().getPoints() + " point(s)");
+                break;
+            }
             round++;
+            Deck.newDeck();
             Player firstPlayer = players.peek();
             firstPlayer.setCards(Deck.giveCards());
             players.poll();
@@ -73,7 +77,7 @@ public abstract class QueenOfSpadesGame {
             Queue<Player> playersTurn;
             while(true){       
                 if(turn == 1){
-                    firstPlayer = searchPlayerWithTwoOfClub();
+                    firstPlayerToPlay = searchPlayerWithTwoOfClub();
                 }
                 playersTurn = orderPlayer(firstPlayerToPlay);
                 Queue<Card> turnDeck = new LinkedList<>();
@@ -91,9 +95,9 @@ public abstract class QueenOfSpadesGame {
                 turnDeck.offer(fourthPlayerInTurn.throwCard(turnDeck, turn));
 
                 Player winnerTurn = getWinnerTurn(players, turnDeck);
-                firstPlayer = winnerTurn;
+                firstPlayerToPlay = winnerTurn;
                 if (turn == 13){
-                    System.out.println(getPlayerWithLowestPoints().getName() + " est en tête avec " + getPlayerWithLowestPoints().getPoints());
+                    System.out.println(getPlayerWithLowestPoints().getName() + " est en tête avec " + getPlayerWithLowestPoints().getPoints()+" point(s)");
                     break;
                 }
                 turn++;

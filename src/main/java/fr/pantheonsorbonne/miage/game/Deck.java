@@ -7,12 +7,12 @@ import fr.pantheonsorbonne.miage.enums.CardValue;
 
 import java.util.Random;
 
-public class Deck  {
+public class Deck {
     private final static int DECK_SIZE = 13;
     private static Card[] cards;
     private static int countDistributedCard;
 
-    static {
+    public static void newDeck(){
         countDistributedCard = 0;
         cards = new Card[52];
         int index = 0;
@@ -30,13 +30,12 @@ public class Deck  {
         }
     }
 
-
     public static Card[] giveCards() {
         Card[] hand = new Card[DECK_SIZE];
         int index = 0;
         for (int i = countDistributedCard; i < cards.length; i++) {
             hand[index++] = cards[i];
-            if ((i+1) % DECK_SIZE == 0) {
+            if ((i + 1) % DECK_SIZE == 0) {
                 countDistributedCard = countDistributedCard + DECK_SIZE;
                 break;
             }
@@ -44,5 +43,4 @@ public class Deck  {
         return hand;
     }
 
-    
 }

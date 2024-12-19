@@ -22,13 +22,15 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
     
     @Override
     public Card getWinnerCard(Queue<Card> roundDeck){
-        Card highCardValue = roundDeck.peek();
-        Card currentCard = roundDeck.peek();
-        while(!roundDeck.isEmpty()){
+        Queue<Card> roundDeckCopy = new LinkedList<>();
+        roundDeckCopy.addAll(roundDeck);
+        Card highCardValue = roundDeckCopy.peek();
+        Card currentCard = roundDeckCopy.peek();
+        while(!roundDeckCopy.isEmpty()){
             if (currentCard.getValue().getRank() > highCardValue.getValue().getRank()){
                 highCardValue = currentCard;
             }
-            currentCard = roundDeck.peek();
+            currentCard = roundDeckCopy.poll();
         }
         return highCardValue;
     }
@@ -38,12 +40,12 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
         int countPointsHeartCards = 0;
         Card currentCard = roundDeck.peek();
         while (!roundDeck.isEmpty()){
-            if(currentCard.getColor().toString().equals("Spade")){
-                if(currentCard.getValue().toString().equals("Queen")){
+            if(currentCard.getColor().equals(CardColor.valueOf("SPADE"))){
+                if(currentCard.getValue().getRank() == 12 ){
                     countPointsHeartCards += 13;
                 }
             }
-            else if (currentCard.getColor().toString().equals("Heart")){
+            else if (currentCard.getColor().equals(CardColor.valueOf("HEART"))){
                 countPointsHeartCards++;
             }
             roundDeck.poll();
@@ -53,30 +55,36 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
     }
     @Override
     public Player getWinnerTurn(Queue<Player> playersOrder, Queue<Card> roundDeck){
+        Queue<Player> playersOrderCopy = new LinkedList<>();
+        playersOrderCopy.addAll(playersOrder);
         Player winnerPlayer = null;
         Card winnerCard = getWinnerCard(roundDeck);
+        Queue<Card> roundDeckCopy = new LinkedList<>();
+        roundDeckCopy.addAll(roundDeck);
         Card currentCard = roundDeck.peek();
-        Player currentPlayer = playersOrder.peek();
+        Player currentPlayer = playersOrderCopy.peek();
         while(currentCard != winnerCard){
-            roundDeck.poll();
-            playersOrder.poll();
-            currentCard = roundDeck.peek();
-            currentPlayer = playersOrder.peek();
+            roundDeckCopy.poll();
+            playersOrderCopy.poll();
+            currentCard = roundDeckCopy.peek();
+            currentPlayer = playersOrderCopy.peek();
             
         }
         winnerPlayer = currentPlayer;
-        winnerPlayer.setPoints(givePointsToWinnerTurn(roundDeck));
+        winnerPlayer.setPoints(winnerPlayer.getPoints()+givePointsToWinnerTurn(roundDeck));
         return winnerPlayer;
     }
 
     @Override
     public boolean firstPlayerHas100(Queue<Player> players){
-        while(!players.isEmpty()){
-            if(players.peek().getPoints() >= 100){
+        Queue<Player> playersCopy = new LinkedList<>();
+        playersCopy.addAll(players);
+        while(!playersCopy.isEmpty()){
+            if(playersCopy.peek().getPoints() >= 100){
                 return true;
             }
             else{
-                players.poll();
+                playersCopy.poll();
             }
         }
         return false;
@@ -98,11 +106,7 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
         Player firstPlayer = null;
         for(Player player : players){
             for(Card card: player.getCards()){
-                System.out.println(card.getValue().getRank());
-                System.out.println(card.getColor());
-                System.out.println( CardColor.valueOf("CLUB"));
-                System.out.println(card.getColor() == CardColor.valueOf("CLUB"));
-                if(card.getValue().getRank() == 2 && card.getColor() == CardColor.valueOf("CLUB")){
+                if(card.getValue().getRank() == 2 && card.getColor().equals(CardColor.valueOf("CLUB"))){
                     firstPlayer = player;
                 }
             }

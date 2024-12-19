@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import fr.pantheonsorbonne.miage.enums.CardColor;
+
 public abstract class Player {
     private String name;
     protected Card[] cards;
@@ -74,22 +76,26 @@ public abstract class Player {
     public abstract Card throwCard(Queue<Card> roundDeck, int turn);
   
     private boolean isNull(Card card){
-        return card.equals(null);
+        return card==null;
     }
 
     protected List<Card> getCardListNotNull(Card[] cards){
         List<Card> list = new LinkedList<>();
-        for(Card card: cards){
-            if(!isNull(card)){
-                list.add(card);
+        for(int i = 0; i<cards.length;i++){
+            if(!isNull(cards[i])){
+                list.add(cards[i]);
             }
         }
         return list;
     }
     
     protected boolean haveSameColorInDeck(Queue<Card> roundDeck) {
+        List<Card> listCardNotNull = getCardListNotNull(this.cards);
+        if(roundDeck.size()==0){
+            return false;
+        }
         Card firstPlayedCard = roundDeck.peek();
-        for (Card card : this.cards) {
+        for (Card card : listCardNotNull) {
             if (card.getColor().equals(firstPlayedCard.getColor())) {
                 return true;
             }
@@ -99,10 +105,19 @@ public abstract class Player {
 
     protected void replaceBestCardsInDeckByNull(Card bestCard){
         for(int i = 0; i<this.cards.length;i++){
-            if(this.cards[i].getValue().getRank() == bestCard.getValue().getRank()){
+            if(cards[i]!=null && this.cards[i].getValue().getRank() == bestCard.getValue().getRank() && this.cards[i].getColor().equals(bestCard.getColor())){
                 this.cards[i]=null;
             }
         }
+    }
+
+    protected int searchIndexOfTwoOfClub(){
+        for(int i = 0; i <this.cards.length;i++){
+            if(cards[i]!=null && cards[i].getValue().getRank()==2 && cards[i].getColor().equals(CardColor.valueOf("CLUB"))){
+                return i;
+            }
+        }
+        return 0;
     }
 
 }
