@@ -24,7 +24,7 @@ public class DumpPlayer extends Player {
                 cardToPlay = this.cards[searchIndexOfTwoOfClub()];
                 break;
             } else if (turn == 1) {
-                if (cardToPlay.getColor().equals(CardColor.valueOf("HEART"))) {
+                if (cardToPlay.getColor().equals(CardColor.HEART)) {
                     index = getRandom(listCardNotNull.size());
                     cardToPlay = getRandomCard(index, listCardNotNull);
                 }

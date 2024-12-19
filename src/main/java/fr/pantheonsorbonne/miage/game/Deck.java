@@ -9,6 +9,7 @@ public class Deck {
     private final static int DECK_SIZE = 13;
     protected static Card[] cards;
     protected static int countDistributedCard;
+    private static Card joker;
 
     public static void newDeck() {
         countDistributedCard = 0;
@@ -24,11 +25,15 @@ public class Deck {
         Random rand2 = new Random();
         int jokerIndex = rand2.nextInt(cards.length);
         cards[jokerIndex].setIsJoker();
+        joker = cards[jokerIndex];
 
-        return cards;
     }
 
-    public void shuffleDeck(Card[] cards){
+    public static Card getJoker(){
+        return joker;
+    }
+
+    public static void shuffleDeck(Card[] cards){
         Random rand = new Random();
         for (int j = 0; j < cards.length; j++) {
             Card temp = cards[j];
@@ -46,7 +51,7 @@ public class Deck {
         return countDistributedCard;
     }
 
-    public Card[] giveCards() {
+    public static Card[] giveCards() {
         Card[] hand = new Card[DECK_SIZE];
         int index = 0;
         for (int i = countDistributedCard; i < cards.length; i++) {

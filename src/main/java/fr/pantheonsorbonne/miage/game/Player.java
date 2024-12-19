@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.miage.game;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 import fr.pantheonsorbonne.miage.enums.CardColor;
 
@@ -140,12 +141,17 @@ public abstract class Player {
     protected int searchIndexOfTwoOfClub() {
         for (int i = 0; i < this.cards.length; i++) {
             if (cards[i] != null && cards[i].getValue().getRank() == 2
-                    && cards[i].getColor().equals(CardColor.valueOf("CLUB"))) {
+                    && cards[i].getColor().equals(CardColor.CLUB)) {
                 return i;
             }
         }
         return 0;
     }
-    
+
+    public double tapOntheTable(){
+        Random rand = new Random();
+        return rand.nextDouble(0,1);
+    }
+
 
 }

@@ -37,12 +37,12 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
         int countPointsHeartCards = 0;
         Card currentCard = roundDeck.peek();
         while (!roundDeck.isEmpty()){
-            if(currentCard.getColor().equals(CardColor.valueOf("SPADE"))){
+            if(currentCard.getColor().equals(CardColor.SPADE)){
                 if(currentCard.getValue().getRank() == 12 ){
                     countPointsHeartCards += 13;
                 }
             }
-            else if (currentCard.getColor().equals(CardColor.valueOf("HEART"))){
+            else if (currentCard.getColor().equals(CardColor.HEART)){
                 countPointsHeartCards++;
             }
             roundDeck.poll();
@@ -103,7 +103,7 @@ public class LocalQueenOfSpadesGame extends QueenOfSpadesGame {
         Player firstPlayer = null;
         for(Player player : players){
             for(Card card: player.getCards()){
-                if(card.getValue().getRank() == 2 && card.getColor().equals(CardColor.valueOf("CLUB"))){
+                if(card.getValue().getRank() == 2 && card.getColor().equals(CardColor.CLUB)){
                     firstPlayer = player;
                 }
             }

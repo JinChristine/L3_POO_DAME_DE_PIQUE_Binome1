@@ -1,40 +1,47 @@
 package fr.pantheonsorbonne.miage.engine;
+
 import fr.pantheonsorbonne.miage.game.Deck;
 import fr.pantheonsorbonne.miage.game.Player;
-import fr.pantheonsorbonne.miage.enums.CardColor;
-import fr.pantheonsorbonne.miage.enums.CardValue;
 
 import fr.pantheonsorbonne.miage.game.Card;
 
 import java.util.*;
 
-
 public abstract class QueenOfSpadesGame {
 
-    public QueenOfSpadesGame(){
+    public QueenOfSpadesGame() {
     }
 
     protected abstract Queue<Player> getPlayers();
-    protected abstract Card getWinnerCard(Queue<Card> roundDeck);
-    protected abstract int givePointsToWinnerTurn(Queue<Card> roundDeck);
-    protected abstract Player getWinnerTurn(Queue<Player> playersOrder, Queue<Card> roundDeck);
-    protected abstract boolean firstPlayerHas100(Queue<Player> players);
-    protected abstract Player getPlayerWithLowestPoints();
-    protected abstract Player searchPlayerWithTwoOfClub();
-    protected abstract  Queue<Player> orderPlayer(Player first);
 
-    public void play(){
+    protected abstract Card getWinnerCard(Queue<Card> roundDeck);
+
+    protected abstract int givePointsToWinnerTurn(Queue<Card> roundDeck);
+
+    protected abstract Player getWinnerTurn(Queue<Player> playersOrder, Queue<Card> roundDeck);
+
+    protected abstract boolean firstPlayerHas100(Queue<Player> players);
+
+    protected abstract Player getPlayerWithLowestPoints();
+
+    protected abstract Player searchPlayerWithTwoOfClub();
+
+    protected abstract Queue<Player> orderPlayer(Player first);
+
+    public void play() {
         int turn = 1;
         int round = 0;
         final Queue<Player> players = getPlayers();
-        while (true){
-            if(firstPlayerHas100(players)){
-                System.out.println(getPlayerWithLowestPoints().getName() + "a gagné la partie avec "+getPlayerWithLowestPoints().getPoints() + " point(s)");
+        while (true) {
+            if (firstPlayerHas100(players)) {
+                System.out.println(getPlayerWithLowestPoints().getName() + "a gagné la partie avec "
+                        + getPlayerWithLowestPoints().getPoints() + " point(s)");
                 break;
             }
             round++;
-            System.out.println("Round "+round);
+            System.out.println("Round " + round);
             Deck.newDeck();
+            System.out.println("Le joker de ce Round est "+Deck.getJoker());
             Player firstPlayer = players.peek();
             firstPlayer.setCards(Deck.giveCards());
             players.poll();
@@ -51,7 +58,7 @@ public abstract class QueenOfSpadesGame {
             fourthPlayer.setCards(Deck.giveCards());
             players.poll();
             players.offer(fourthPlayer);
-            switch (round%4){
+            switch (round % 4) {
                 case 1:
                     firstPlayer.swap3Cards(secondPlayer);
                     secondPlayer.swap3Cards(thirdPlayer);
@@ -69,18 +76,18 @@ public abstract class QueenOfSpadesGame {
                     secondPlayer.swap3Cards(fourthPlayer);
                     thirdPlayer.swap3Cards(firstPlayer);
                     fourthPlayer.swap3Cards(secondPlayer);
-                    break; 
-                default: 
+                    break;
+                default:
                     break;
             }
 
             Player firstPlayerToPlay = null;
             Queue<Player> playersTurn;
-            while(true){       
-                if(turn == 1){
+            while (true) {
+                if (turn == 1) {
                     firstPlayerToPlay = searchPlayerWithTwoOfClub();
                 }
-                System.out.println("Tour "+turn);
+                System.out.println("Tour " + turn);
                 playersTurn = orderPlayer(firstPlayerToPlay);
                 Queue<Card> turnDeck = new LinkedList<>();
                 Player firstPlayerInTurn = playersTurn.poll();
@@ -103,12 +110,19 @@ public abstract class QueenOfSpadesGame {
                 val = fourthPlayerInTurn.throwCard(turnDeck, turn);
                 turnDeck.offer(val);
                 System.out.println(fourthPlayerInTurn.getName() + " played" + val);
-              
+
                 Player winnerTurn = getWinnerTurn(players, turnDeck);
+                if (has20PointsInRoundDeck(turnDeck)) {
+                    winnerTurn = givePlayerTappedFasterOnTheTable(players);
+                } else if (has21PointsInRoundDeck(turnDeck)) {
+                    changeDeckAndPointsWithRightPlayer(playersTurn);
+                }
+
                 firstPlayerToPlay = winnerTurn;
 
-                if (turn == 13){
-                    System.out.println(getPlayerWithLowestPoints().getName() + " est en tête avec " + getPlayerWithLowestPoints().getPoints()+" point(s)");
+                if (turn == 13) {
+                    System.out.println(getPlayerWithLowestPoints().getName() + " est en tête avec "
+                            + getPlayerWithLowestPoints().getPoints() + " point(s)");
                     break;
                 }
                 turn++;
@@ -117,66 +131,73 @@ public abstract class QueenOfSpadesGame {
         }
     }
 
-
-    public boolean has20PointsInRoundDeck(Queue<Card> roundeck){
-        Queue<Card> playedCard = roundeck;
+    public boolean has20PointsInRoundDeck(Queue<Card> roundeck) {
+        Queue<Card> playedCard = new LinkedList<>();
+        playedCard.addAll(roundeck);
         int som = 0;
-        while(playedCard.size() != 0){
+        while (playedCard.size() != 0) {
             Card card = playedCard.peek();
             som += card.getValue().getRank();
             playedCard.poll();
         }
-        if(som == 20){
-            givePlayerTappedFasterOnTheTable(tapOntheTable(), tapOntheTable(), tapOntheTable(), tapOntheTable());
+        if (som == 20) {
+            return true;
         }
-        return true;
+        return false;
     }
 
-    public float tapOntheTable(){
-        Random rand = new Random();
-        return rand.nextFloat(0,1);
+    public Player givePlayerTappedFasterOnTheTable(Queue<Player> players) {
+        Queue<Player> copyPlayers = new LinkedList<>();
+        copyPlayers.addAll(copyPlayers);
+        Player player1 = copyPlayers.poll();
+        double player1Time = player1.tapOntheTable();
+        Player player2 = copyPlayers.poll();
+        double player2Time = player2.tapOntheTable();
+        Player player3 = copyPlayers.poll();
+        double player3Time = player3.tapOntheTable();
+        Player player4 = copyPlayers.poll();
+        double player4Time = player4.tapOntheTable();
 
-    }
-    public void givePlayerTappedFasterOnTheTable(float time1, float time2, float time3, float time4){
-        float max = Math.max(time1, Math.max(time2, Math.max(time3, time4)));
-        if (max == time1){
-            player1.setPoints(player1.getPoints()+givePointsToWinnerTurn(roundDeck));
-        }
-        else if (max == time2){
-            player2.setPoints(player2.getPoints()+givePointsToWinnerTurn(roundDeck));
-        }
-        else if (max == time3){
-            player3.setPoints(player3.getPoints()+givePointsToWinnerTurn(roundDeck));
-        }
-        else {
-            player4.setPoints(player4.getPoints()+givePointsToWinnerTurn(roundDeck));
+        double minTime = Math.min(player1Time, Math.min(player2Time, Math.min(player3Time, player4Time)));
+        if (minTime == player1Time) {
+            return player1;
+        } else if (minTime == player2Time) {
+            return player2;
+        } else if (minTime == player3Time) {
+            return player3;
+        } else {
+            return player4;
         }
     }
 
-    public boolean has21PointsInRoundDeck(Queue<Card> roundeck){
+    public boolean has21PointsInRoundDeck(Queue<Card> roundeck) {
         Queue<Card> playedCard = roundeck;
         int som = 0;
-        while(playedCard.size() != 0){
+        while (playedCard.size() != 0) {
             Card card = playedCard.peek();
             som += card.getValue().getRank();
             playedCard.poll();
         }
-        if(som == 21){
-            changeDeckAndPointsWithRightPlayer();
+        if (som == 21) {
+            return true;
         }
-        return true;
+        return false;
     }
 
-    public void changeDeckAndPointsWithRightPlayer(Player firstPlayer, Player secondPlayer, Player thirdPlayer, Player fourthPlayer){
-        firstPlayer.swapAllCardsAndPoints(fourthPlayer);
-        secondPlayer.swapAllCardsAndPoints(firstPlayer);
-        thirdPlayer.swapAllCardsAndPoints(secondPlayer);
-        fourthPlayer.swapAllCardsAndPoints(thirdPlayer);
+    public void changeDeckAndPointsWithRightPlayer(Queue<Player> players) {
+        int size = players.size();
+
+        Player previousPlayer = players.poll();
+        for (int i = 1; i < size; i++) {
+            Player currentPlayer = players.poll();
+            Card[] tempCards = previousPlayer.getCards();
+            int tempPoints = previousPlayer.getPoints();
+            currentPlayer.setCards(tempCards);
+            currentPlayer.setPoints(tempPoints);
+            players.offer(previousPlayer);
+            previousPlayer = currentPlayer;
+        }
+
     }
 
-    public Card defineJoker(Card randomCard){
-        Card joker = getRandomCard(getRandom(deck.size()));
-
-    return joker;
-    }
 }

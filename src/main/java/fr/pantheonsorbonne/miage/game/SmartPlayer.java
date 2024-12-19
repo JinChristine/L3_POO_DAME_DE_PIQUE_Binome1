@@ -34,7 +34,7 @@ public class SmartPlayer extends Player{
         Card bestCard = cardListNotNull.get(0);
         if (roundDeck.size() != 0) {
             for (Card card : cardListNotNull) {
-                if (card.getColor().equals(CardColor.valueOf("HEART"))) {
+                if (card.getColor().equals(CardColor.HEART)) {
                     bestCard = card;
                     break;
                 }
@@ -44,13 +44,13 @@ public class SmartPlayer extends Player{
                 if(card.equals(null)){
                     continue;
                 }
-                if (card.getColor().equals(CardColor.valueOf("SPADE")) && card.getValue().getRank() == 12
+                if (card.getColor().equals(CardColor.SPADE) && card.getValue().getRank() == 12
                         && turn != 1) {
                     bestCard = card;
                     break;
                 }
                 if (haveHeartOrQueenOfSpadeInDeck(this.cards) && turn != 1) {
-                    if (card.getColor().equals(CardColor.valueOf("HEART"))
+                    if (card.getColor().equals(CardColor.HEART)
                             && card.getValue().getRank() > bestCard.getValue().getRank()) {
                         bestCard = card;
                     }
@@ -63,7 +63,7 @@ public class SmartPlayer extends Player{
             }
         } else {
             for (Card card : cardListNotNull) {
-                if (card.getValue().getRank() == 2 && card.getColor().equals(CardColor.valueOf("HEART"))) {
+                if (card.getValue().getRank() == 2 && card.getColor().equals(CardColor.HEART)) {
                     bestCard = card;
                     break;
                 }
@@ -124,8 +124,8 @@ public class SmartPlayer extends Player{
 
     private boolean haveHeartOrQueenOfSpadeInDeck(Queue<Card> roundDeck) {
         for (Card cardInDeck : roundDeck) {
-            if (cardInDeck.getColor().equals(CardColor.valueOf("HEART")) || (cardInDeck.getValue().getRank() == 12
-                    && cardInDeck.getColor().equals(CardColor.valueOf("SPADE")))) {
+            if (cardInDeck.getColor().equals(CardColor.HEART) || (cardInDeck.getValue().getRank() == 12
+                    && cardInDeck.getColor().equals(CardColor.SPADE))) {
                 return true;
             }
         }
@@ -135,8 +135,8 @@ public class SmartPlayer extends Player{
     private boolean haveHeartOrQueenOfSpadeInDeck(Card[] cards) {
         List<Card> cardListNotNull = getCardListNotNull(this.cards);
         for (Card cardInDeck : cardListNotNull) {
-            if (cardInDeck.getColor().equals(CardColor.valueOf("HEART")) || (cardInDeck.getValue().getRank() == 12
-                    && cardInDeck.getColor().equals(CardColor.valueOf("SPADE")))) {
+            if (cardInDeck.getColor().equals(CardColor.HEART) || (cardInDeck.getValue().getRank() == 12
+                    && cardInDeck.getColor().equals(CardColor.SPADE))) {
                 return true;
             }
         }
