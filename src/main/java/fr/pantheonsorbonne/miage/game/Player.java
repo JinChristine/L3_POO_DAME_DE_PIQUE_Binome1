@@ -35,7 +35,7 @@ public abstract class Player {
         return this.cards;
     }
 
-    public void swap3Cards(PlayerTest otherPlayer) {
+    public void swap3Cards(Player otherPlayer) {
         Card[] swapCardsHand1 = this.getSwap3Cards();
         Card[] swapCardsHand2 = otherPlayer.getSwap3Cards();
 
@@ -59,7 +59,7 @@ public abstract class Player {
         return cardsToGive;
     }
 
-    private void swapCards(PlayerTest player, Card[] swapCardsHand1, Card[] swapCardsHand2) {
+    private void swapCards(Player player, Card[] swapCardsHand1, Card[] swapCardsHand2) {
         Card[] handle = player.getCards();
         for (int i = 0; i < handle.length; i++) {
             for (int j = 0; j < swapCardsHand1.length; j++) {
