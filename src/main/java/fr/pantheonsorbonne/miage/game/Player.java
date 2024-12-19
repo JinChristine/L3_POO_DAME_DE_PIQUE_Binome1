@@ -132,6 +132,7 @@ public abstract class Player {
             if (cards[i] != null && (this.cards[i].getValue().getRank() == bestCard.getValue().getRank())
                     && this.cards[i].getColor().equals(bestCard.getColor())) {
                 this.cards[i] = null;
+                break;
             }
         }
     }
