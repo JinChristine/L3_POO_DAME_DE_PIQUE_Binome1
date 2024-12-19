@@ -9,9 +9,14 @@ import org.junit.jupiter.api.Test;
 import fr.pantheonsorbonne.miage.enums.CardColor;
 import fr.pantheonsorbonne.miage.enums.CardValue;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DumpPlayerTest{
@@ -43,44 +48,77 @@ public class DumpPlayerTest{
     }
 
     @Test
-    public void testThrowCard(Queue<Card> roundDeck, int turn) {
-        List<Card> listCardNotNull = getCardListNotNull(cards);
-        int index = getRandom(listCardNotNull.size());
-        Card cardToPlay = getRandomCard(index, listCardNotNull);
-        while (true) {
-            if (haveSameColorInDeck(roundDeck)) {
-                cardToPlay = getCardWithSameColorInDeck(roundDeck, listCardNotNull);
-                break;
-            } else if (turn == 1) {
-                if (cardToPlay.getColor().equals(CardColor.valueOf("HEART"))) {
-                    index = getRandom(listCardNotNull.size());
-                    cardToPlay = getRandomCard(index, listCardNotNull);
-                }
-            }
-            else {
-                break;
-            }
+    public void testThrowCard() {
+        Queue<Card> roundDeck = new LinkedList<>();
+        roundDeck.add(new Card(CardValue.KING, CardColor.HEART));
 
-        }
-        replaceBestCardsInDeckByNull(cardToPlay);
+        Card cardPlayed = player.throwCard(roundDeck, 2);
+        assertEquals(CardColor.HEART, cardPlayed.getColor());
+    }
+    @Test
+    public void testThrowCardOnFirstTurn(){
+        Queue<Card> roundDeck = new LinkedList<>();
+        roundDeck.add(new Card(CardValue.KING, CardColor.SPADE));
 
+        Card cardPlayed = player.throwCard(roundDeck, 1);
+        assertNotEquals(CardColor.HEART, cardPlayed.getColor());
     }
-    @Test
-    public void getRandom(int max) {
-        Random rand = new Random();
-        return rand.nextInt(0, max);
-    }
-    @Test
-    public void getRandomCard(int i, List<Card> listCardNotNull) {
-        return listCardNotNull.get(i);
-    }
-    @Test
-    public void getCardWithSameColorInDeck(Queue<Card> roundDeck, List<Card> listCardNotNull) {
-        while (true) {
-            Card randomCard = getRandomCard(getRandom(this.cards.length), listCardNotNull);
-            if (roundDeck.peek().getColor().equals(randomCard.getColor())) {
-                return randomCard;
+
+    @Test 
+    public void testThrowCardSelectsBecomesNull(){
+        Queue<Card> roundDeck = new LinkedList<>();
+        roundDeck.add(new Card(CardValue.KING, CardColor.DIAMOND));
+        Card cardPlayed = player.throwCard(roundDeck, 2);
+        boolean verification = false;
+        for(Card card: player.cards){
+            if(card == null){
+                verification = true;
+                break;
             }
         }
+        assertTrue(verification);
+    }
+
+    @Test
+    public void testGetRandom() {
+        int max = 13;
+        for(int i = 0; i < 100; i++){
+            int result = player.getRandom(max);
+            assertTrue(result >= 0 && result < max);
+        }
+    }
+    @Test
+    public void testGetRandomCard() {
+        List<Card> listCard = player.getCardListNotNull(player.cards);
+        int randomIndex = player.getRandom(listCard.size());
+        Card card = player.getRandomCard(randomIndex, listCard);
+
+        assertNotNull(card);
+        assertEquals(listCard.get(randomIndex), card);
+    }
+    @Test 
+    public void testGetCardWithSameColorInDeck(){
+     Queue<Card> roundDeck = new ArrayDeque<>();
+        roundDeck.add(new Card(CardValue.KING, CardColor.HEART));
+
+        List<Card> listCardNotNull = player.getCardListNotNull(player.cards);
+        Card cardWithSameColor = player.getCardWithSameColorInDeck(roundDeck, listCardNotNull);
+
+        assertNotNull(cardWithSameColor);
+        assertEquals(CardColor.HEART, cardWithSameColor.getColor());
+    }
+    @Test
+    public void testReplaceBestCardsInDeckByNull(){
+        Card cardToRemove = player.cards[0];
+        player.replaceBestCardsInDeckByNull(cardToRemove);
+
+        boolean removeVerification = true;
+        for (Card card : player.cards) {
+            if (card != null && card.getValue() == cardToRemove.getValue() && card.getColor() == cardToRemove.getColor()) {
+                removeVerification = false;
+                break;
+            }
+        }
+        assertTrue(removeVerification);
     }
 }
