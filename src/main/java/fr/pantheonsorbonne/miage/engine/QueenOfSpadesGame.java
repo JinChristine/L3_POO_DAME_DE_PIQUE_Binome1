@@ -31,6 +31,7 @@ public abstract class QueenOfSpadesGame {
                 break;
             }
             round++;
+            System.out.println("Round "+round);
             Deck.newDeck();
             Player firstPlayer = players.peek();
             firstPlayer.setCards(Deck.giveCards());
@@ -77,20 +78,29 @@ public abstract class QueenOfSpadesGame {
                 if(turn == 1){
                     firstPlayerToPlay = searchPlayerWithTwoOfClub();
                 }
+                System.out.println("Tour "+turn);
                 playersTurn = orderPlayer(firstPlayerToPlay);
                 Queue<Card> turnDeck = new LinkedList<>();
                 Player firstPlayerInTurn = playersTurn.poll();
                 playersTurn.offer(firstPlayerInTurn);
-                turnDeck.offer(firstPlayerInTurn.throwCard(turnDeck, turn));
+                Card val = firstPlayerInTurn.throwCard(turnDeck, turn);
+                turnDeck.offer(val);
+                System.out.println(firstPlayerInTurn.getName() + " played" + val);
                 Player secondPlayerInTurn = playersTurn.poll();
                 playersTurn.offer(secondPlayerInTurn);
-                turnDeck.offer(secondPlayerInTurn.throwCard(turnDeck, turn));
+                val = secondPlayerInTurn.throwCard(turnDeck, turn);
+                turnDeck.offer(val);
+                System.out.println(secondPlayerInTurn.getName() + " played" + val);
                 Player thirdPlayerInTurn = playersTurn.poll();
                 playersTurn.offer(thirdPlayerInTurn);
-                turnDeck.offer(thirdPlayerInTurn.throwCard(turnDeck, turn));
+                val = thirdPlayerInTurn.throwCard(turnDeck, turn);
+                turnDeck.offer(val);
+                System.out.println(thirdPlayerInTurn.getName() + " played" + val);
                 Player fourthPlayerInTurn = playersTurn.poll();
                 playersTurn.offer(fourthPlayerInTurn);
-                turnDeck.offer(fourthPlayerInTurn.throwCard(turnDeck, turn));
+                val = fourthPlayerInTurn.throwCard(turnDeck, turn);
+                turnDeck.offer(val);
+                System.out.println(fourthPlayerInTurn.getName() + " played" + val);
               
                 Player winnerTurn = getWinnerTurn(players, turnDeck);
                 firstPlayerToPlay = winnerTurn;

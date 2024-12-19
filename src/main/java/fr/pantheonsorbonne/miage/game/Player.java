@@ -129,7 +129,7 @@ public abstract class Player {
 
     protected void replaceBestCardsInDeckByNull(Card bestCard) {
         for (int i = 0; i < this.cards.length; i++) {
-            if (!isNull(cards[i]) && this.cards[i].getValue().getRank() == bestCard.getValue().getRank()
+            if (cards[i] != null && (this.cards[i].getValue().getRank() == bestCard.getValue().getRank())
                     && this.cards[i].getColor().equals(bestCard.getColor())) {
                 this.cards[i] = null;
             }
@@ -138,7 +138,7 @@ public abstract class Player {
 
     protected int searchIndexOfTwoOfClub() {
         for (int i = 0; i < this.cards.length; i++) {
-            if (!isNull(cards[i]) && cards[i].getValue().getRank() == 2
+            if (cards[i] != null && cards[i].getValue().getRank() == 2
                     && cards[i].getColor().equals(CardColor.valueOf("CLUB"))) {
                 return i;
             }

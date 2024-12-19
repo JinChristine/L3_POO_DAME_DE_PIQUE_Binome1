@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.miage.engine.net;
+/*package fr.pantheonsorbonne.miage.engine.net;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -66,4 +66,4 @@ public class QueenOfSpadesGameNetworkPlayer {
         }
         System.exit(0);
     }
-}
+}*/

@@ -20,7 +20,7 @@ public class DumpPlayer extends Player {
             if (haveSameColorInDeck(roundDeck)) {
                 cardToPlay = getCardWithSameColorInDeck(roundDeck, listCardNotNull);
                 break;
-            } else if (turn == 1 && roundDeck.size() == 0) {
+            } else if (turn == 1 && roundDeck.isEmpty()) {
                 cardToPlay = this.cards[searchIndexOfTwoOfClub()];
                 break;
             } else if (turn == 1) {
@@ -28,6 +28,7 @@ public class DumpPlayer extends Player {
                     index = getRandom(listCardNotNull.size());
                     cardToPlay = getRandomCard(index, listCardNotNull);
                 }
+                else{break;}
             } else {
                 break;
             }
@@ -38,7 +39,7 @@ public class DumpPlayer extends Player {
     }
 
     public int getRandom(int max) {
-        if(max == 1){
+        if(max <=1){
             return 0;
         }
         Random rand = new Random();
