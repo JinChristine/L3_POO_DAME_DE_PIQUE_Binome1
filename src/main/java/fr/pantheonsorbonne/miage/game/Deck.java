@@ -1,7 +1,5 @@
 package fr.pantheonsorbonne.miage.game;
 
-import fr.pantheonsorbonne.miage.game.Card;
-
 import fr.pantheonsorbonne.miage.enums.CardColor;
 import fr.pantheonsorbonne.miage.enums.CardValue;
 
@@ -9,10 +7,10 @@ import java.util.Random;
 
 public class Deck {
     private final static int DECK_SIZE = 13;
-    private static Card[] cards;
-    private static int countDistributedCard;
+    protected static Card[] cards;
+    protected static int countDistributedCard;
 
-    public static void newDeck(){
+    public Card[] newDeck(){
         countDistributedCard = 0;
         cards = new Card[52];
         int index = 0;
@@ -28,13 +26,18 @@ public class Deck {
             cards[j] = cards[indexAleatoire];
             cards[indexAleatoire] = temp;
         }
+        return cards;
     }
 
     public Card[] getCards(){
         return cards;
     }
 
-    public static Card[] giveCards() {
+    public int getCountDistributedCard(){
+        return countDistributedCard;
+    }
+
+    public Card[] giveCards() {
         Card[] hand = new Card[DECK_SIZE];
         int index = 0;
         for (int i = countDistributedCard; i < cards.length; i++) {
@@ -46,5 +49,4 @@ public class Deck {
         }
         return hand;
     }
-
 }
