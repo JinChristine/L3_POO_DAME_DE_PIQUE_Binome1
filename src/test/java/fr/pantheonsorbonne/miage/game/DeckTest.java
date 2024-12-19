@@ -52,7 +52,7 @@ public class DeckTest {
                 break;
             }
         }
-        assertTrue(isShuffled, "Les cartes doivent être mélangées");
+        assertTrue(isShuffled);
     }
 
     @Test
